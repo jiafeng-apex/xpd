@@ -1,0 +1,330 @@
+@charset "utf-8";
+/*** CSS RESET ***/
+body{ background:#fff;color:#565656;text-align:left;font-family:"宋体";font-size:12px;margin:0;padding:0;}
+img, fieldset{border:none;vertical-align:middle;}
+input, textarea{/* font-size:12px; */outline: none;}
+table{border-collapse:collapse;}
+a{text-decoration:none;/* color:#000; */ }
+a:hover{text-decoration:none;}
+input{ hide-focus: expression(this.hideFocus=true);}
+ul,ol{list-style:none;}
+/* input[type="submit"]{-webkit-appearance:none;border:0px;} */
+input[type="text"]{border-radius:0;}
+html{overflow-y:scroll;/*让页面一直出现滚动条*/}
+/*文本框红色星号标识必填*/
+span.red{
+	color:red;
+	padding-right:3px;
+}
+/*斜体置灰显示*/
+span.italic{
+	font-style:italic;
+	color:#cccccc;
+}
+/*** COMMON CSS ***/
+.fl{
+	float:left;
+}
+.fr{
+	float:right;
+}
+.cl{
+	clear:both;
+}
+/*只读背景变灰*/
+.readonly{
+	background-color:#eee;
+}
+.ipt{
+	border: 1px solid #ddd;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.17) inset;
+	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+	border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	height: 25px;
+	padding: 0px 5px;
+	line-height:30px\9;
+}
+.ipt-size1{
+	width: 200px;
+}
+.ipt-size2{
+  width: 80%;
+}
+.ipt-size3{
+  width: 96%;
+}
+.ipt-size4{
+  width: 5%;
+}
+.ipt-datetime{
+	width: 140px;
+}
+.ipt-date{
+	width: 83px;
+}
+.ipt-select{
+	width: 85%;
+	padding:0;
+}
+.ipt-select1{
+	width: 213px;
+	padding:0;
+}
+.slt{
+	border: 1px solid #ddd;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.17) inset;
+	transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s;
+	border-radius: 0 !important;
+	-moz-border-radius: 0 !important;
+	-webkit-border-radius: 0 !important;
+	min-width: 120px;
+	height: 34px;
+	line-height: 34px;
+}
+.blt{
+	width: 200px;
+}
+.form-group {
+	margin-bottom: 10px;
+	overflow:hidden;
+	_zoom:1;
+}
+.btn{
+	/* display: inline-block;
+	padding: 2px 10px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: 400;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	-ms-touch-action: manipulation;
+	touch-action: manipulation;
+	cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+	background-image: none;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background-color: #f8ac59;
+	border-color: #f8ac59;
+	color: #FFFFFF; */
+	background: url(../img/actionBtnbackground.png) repeat-x;
+	height: 25px;
+	border: solid 1px #a9abac;
+    vertical-align: top;
+    cursor: pointer;
+    padding: 2px 10px;
+	border-radius: 3px;
+	color:#545454;
+}
+.btn:hover{
+	/* color:#FFF;
+	background-color: #FF921B; */
+	border:1px solid #03a1ea;
+}
+.page-title {
+	font-size: 13px;
+    font-weight: bold;
+	display: block;
+	/* font-weight: normal !important; */
+	padding: 13px 0px 8px 20px;
+}
+.page-title span {
+	font-size: 12px;
+}
+.title-line{
+	width: 100%;
+	height: 1px;
+	background: #dedede;
+	border-bottom: 1px solid #FFF;
+	margin-bottom: 10px;
+}
+.breadcrumb {
+	list-style: none;
+	background-color: #f5f5f5;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.breadcrumb > li {
+	height: 33px;
+	line-height: 33px;
+	background: url("../img/bread-crumb-bg.jpg") repeat-x;
+	float: left;
+	margin-bottom: 25px;
+	padding: 0 0 0 8px;
+}
+.breadcrumb>li {
+	display: inline-block;
+	text-shadow: 0 1px 0 #fff;
+}
+.breadcrumb > li> a {
+	color: #737373;
+}
+.breadcrumb > li > .divider {
+	display: inline-block;
+	padding: 0px;
+	width: 33px;
+	height: 33px;
+	line-height: 33px;
+	background: url("../img/bread-crumb-divider.jpg") no-repeat;
+}
+.breadcrumb > li > .divider-last {
+	display: inline-block;
+	padding: 0px;
+	width: 19px;
+	height: 33px;
+	line-height: 33px;
+	background: url("../img/bread-crumb-last.jpg") no-repeat;
+	}
+.table-bordered {
+	border: 1px solid #ddd;
+	border-collapse: separate;
+	border-left: 0;
+	-webkit-border-radius: 4px;
+	-moz-border-radius: 4px;
+	border-radius: 4px;
+}
+.table-bordered .titletr th,.table-bordered .titletr td{
+	border-top: 0px;
+}
+.table-bordered th,.table-bordered td{
+	border-left: 1px solid #ddd;
+}
+.table-bordered .odd th,.table-bordered .odd td{
+	background-color: #f9f9f9;
+}
+.checker {
+	width: 19px;
+	height: 19px;
+	position: relative;
+	margin-right: 5px;
+}
+.checktd{
+	width: 24px;
+}
+.mar1{
+	margin-left: 20px;
+}
+.mar2{
+	margin-bottom: 20px;
+}
+.mar3{
+	margin-bottom: 5px;
+}
+.center{
+	text-align: center;
+}
+.error{
+	color: red;
+}
+.remark_red{
+    color: red;
+}
+
+
+
+/*分页显示时文字超出单元格宽度时自动隐藏加省略号  td中的div样式*/
+/*省略好 要将 div的title='div中的文字'*/
+td div.hideText {
+	position:relative; 
+	width:100px; 
+	height:20px; 
+	line-height:20px; 
+	text-overflow:ellipsis; 
+	white-space:nowrap; 
+	*white-space:nowrap; 
+	overflow:hidden; 
+}
+/*选择部门太多隐藏文本*/
+td a.hideText {
+	display: block;
+	max-width: 350px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	float:left;
+}
+td span.hideText {
+	display: inline-block;
+	max-width: 100px;
+	line-height:14px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+/*以选择的下发权限展示样式*/
+ul.checkedLimit{
+	margin: 4px 0 0 10px;
+}
+ul.checkedLimit li[tt='orgTree']{
+    background: url("../img/limit-org.png") no-repeat scroll 14px 6px;
+}
+ul.checkedLimit li[tt='grpTree']{
+    background: url("../img/limit-org.png") no-repeat scroll 14px 6px;
+}
+ul.checkedLimit li[tt='levTree']{
+    background: url("../img/limit-org.png") no-repeat scroll 14px 6px;
+}
+ul.checkedLimit li[tt='userTree']{
+    background: url("../img/limit-user.png") no-repeat scroll 14px 6px;
+}
+ul.checkedLimit li span {
+	margin-right: 18px;
+    background: url("../img/tree-close.png") no-repeat scroll 0 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 3px;
+    height: 16px;
+    line-height: 100%;
+    width: 16px;
+}
+ul.checkedLimit li span:hover {
+	margin-right: 18px;
+    background: url("../img/tree-closehover.png") no-repeat scroll 0 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 3px;
+    height: 16px;
+    line-height: 100%;
+    width: 16px;
+}
+
+
+ul.checkedStandandJob li[tt='standandJobTree']{
+    background: url("../img/limit-org.png") no-repeat scroll 14px 6px;
+}
+ul.checkedStandandJob li span {
+	margin-right: 18px;
+    background: url("../img/tree-close.png") no-repeat scroll 0 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 3px;
+    height: 16px;
+    line-height: 100%;
+    width: 16px;
+}
+ul.checkedStandandJob li span:hover {
+	margin-right: 18px;
+    /* IE8不兼容，去掉rgba(0, 0, 0, 0)
+    background: url("../img/tree-closehover.png") no-repeat scroll 0 4px rgba(0, 0, 0, 0); */
+    background: url("../img/tree-closehover.png") no-repeat scroll 0 4px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 3px;
+    height: 16px;
+    line-height: 100%;
+    width: 16px;
+}
+
+/*分页查询页面，[已结束][未开始]等标记的样式*/
+.stamp{
+	padding-left:4px;
+	color:rgb(255, 7, 7);
+}

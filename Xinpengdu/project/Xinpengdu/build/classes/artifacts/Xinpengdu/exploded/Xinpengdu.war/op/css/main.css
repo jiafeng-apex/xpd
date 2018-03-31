@@ -1,0 +1,168 @@
+﻿
+.page-container{margin:0;padding:0;position:relative;height: 100%;}
+.page-container:before,.page-container:after{content:"";display:table;height: 100%}
+.page-sidebar{float:left;position:relative;width:100px;min-height:100%;height: 100%;margin-right:-100%;background-color: #093491}
+.page-sidebar .page-sidebar-menu{width:100px;list-style:none;margin:0;padding:0}
+.page-sidebar .page-sidebar-menu li{list-style-type:none;position:relative}
+.page-sidebar .page-sidebar-menu li ul{width:680px;display:none;position:absolute;padding-left:0;top:0;left:100%;background:#093491;z-index:9999}
+.page-sidebar .page-sidebar-menu li ul li{float:left}
+.page-sidebar .page-sidebar-menu li:hover>ul{display:block}
+.page-sidebar .page-sidebar-menu li.logo{height:60px;padding:10px}
+.page-sidebar .page-sidebar-menu li>a{display:inline-block;padding:20px 26px;text-decoration:none;font-size:12px;color:#fff}
+.page-sidebar .page-sidebar-menu li>a:hover{color:#6ac8ff}
+.page-sidebar .page-sidebar-menu li>a i{display:block}
+.page-content-wrapper{float:left;width:100%;height: 100%}
+.page-content-wrapper .page-content{margin-left:100px;height: 100%}
+.page-content-wrapper .page-content .col-md-6+.col-md-6{padding-right:0}
+.page-content-wrapper .page-content .content-inner{background: #d4d4d4;padding:14px;float:left;width:100%;height: 100%}
+.table thead{color:#fff;background-color:#295cab}
+.table thead tr>th{border-bottom:0}
+.table thead tr>th i{display:inline-block;float:right;margin-right:20px}
+.help-inline{display:inline;margin-left:20px;color:#aaaaaa}
+.pagination>li>a,.pagination>li>span{position:relative;float:left;padding:6px 12px;line-height:1.42857;text-decoration:none;color:#337ab7;background-color:#f7f7f7;margin-left:-1px}
+table+nav{text-align:center}
+table+nav .jump{margin:20px 0}
+table+nav .jump .form-control{display:inline-block;width:50px}
+.margin-right-15{margin-right:15px}
+.height-740{height:740px}
+.icons,.icons-add-circle,.icons-add,.icons-alarm-ed,.icons-alarm-list,.icons-alarm,.icons-close,.icons-cred-time,.icons-device-status,.icons-edit-white,.icons-edit,.icons-eq-mtitle,.icons-eq-title,.icons-info,.icons-jia,.icons-jian,.icons-l-go,.icons-l-info,.icons-l-key,.icons-l-user,.icons-maintain,.icons-menu-config,.icons-menu-maintain,.icons-menu-overview,.icons-menu-report,.icons-menu-system,.icons-message,.icons-money-p,.icons-money,.icons-n,.icons-op-user,.icons-operator-f,.icons-operator,.icons-power,.icons-print,.icons-remove,.icons-revenue,.icons-search-sm,.icons-search,.icons-sta,.icons-time,.icons-user-account,.icons-user-balance,.icons-user-funds-inverse,.icons-user-funds,.icons-user-info,.icons-user,.icons-y{background-image:url('../img/icons-s66362eb768.png');background-repeat:no-repeat}
+.icons,.icons-add-circle,.icons-add,.icons-alarm-ed,.icons-alarm-list,.icons-alarm,.icons-close,.icons-cred-time,.icons-device-status,.icons-edit-white,.icons-edit,.icons-eq-mtitle,.icons-eq-title,.icons-info,.icons-jia,.icons-jian,.icons-l-go,.icons-l-info,.icons-l-key,.icons-l-user,.icons-maintain,.icons-menu-config,.icons-menu-maintain,.icons-menu-overview,.icons-menu-report,.icons-menu-system,.icons-message,.icons-money-p,.icons-money,.icons-n,.icons-op-user,.icons-operator-f,.icons-operator,.icons-power,.icons-print,.icons-remove,.icons-revenue,.icons-search-sm,.icons-search,.icons-sta,.icons-time,.icons-user-account,.icons-user-balance,.icons-user-funds-inverse,.icons-user-funds,.icons-user-info,.icons-user,.icons-y{display:block}
+.icons-op-user{margin-top:2px;margin-left:16px}
+.icons-user-funds{margin-left:28px}
+.icons-operator{margin-left:22px}
+.icons-add-circle{background-position:-26px -306px;height:28px;width:28px}
+.icons-add{background-position:-20px -60px;height:20px;width:20px}
+.icons-alarm-ed{background-position:0 0;height:20px;width:16px}
+.icons-alarm-list{background-position:0 -1358px;height:48px;width:48px}
+.icons-alarm{background-position:0 -372px;height:38px;width:38px}
+.icons-close{background-position:0 -334px;height:38px;width:38px}
+.icons-cred-time{background-position:0 -202px;height:26px;width:26px}
+.icons-device-status{background-position:0 -1316px;height:42px;width:42px}
+.icons-edit-white{background-position:-40px -40px;height:15px;width:12px}
+.icons-edit{background-position:0 -176px;height:26px;width:26px}
+.icons-eq-mtitle{background-position:0 -1064px;height:42px;width:42px}
+.icons-eq-title{background-position:0 -20px;height:20px;width:26px}
+.icons-info{background-position:-16px 0;height:20px;width:20px}
+.icons-info:hover,.icons-info.info-hover{background-position:0 -60px}
+.icons-jia{background-position:-24px -80px;height:18px;width:18px}
+.icons-jian{background-position:-26px -20px;height:18px;width:18px}
+.icons-l-go{background-position:0 -1406px;height:54px;width:54px}
+.icons-l-info{background-position:-22px -102px;height:24px;width:24px}
+.icons-l-key{background-position:-24px -126px;height:24px;width:24px}
+.icons-l-user{background-position:0 -126px;height:24px;width:24px}
+.icons-maintain{background-position:0 -938px;height:42px;width:42px}
+.icons-menu-config{background-position:0 -812px;height:42px;width:42px}
+.icons-menu-config:hover,.icons-menu-config.menu-config-hover{background-position:0 -770px}
+.icons-menu-maintain{background-position:0 -1148px;height:42px;width:42px}
+.icons-menu-maintain:hover,.icons-menu-maintain.menu-maintain-hover{background-position:0 -854px}
+.icons-menu-overview{background-position:0 -1232px;height:42px;width:42px}
+.icons-menu-overview:hover,.icons-menu-overview.menu-overview-hover{background-position:0 -1190px}
+.icons-menu-report{background-position:0 -1022px;height:42px;width:42px}
+.icons-menu-report:hover,.icons-menu-report.menu-report-hover{background-position:0 -1274px}
+.icons-menu-system{background-position:0 -1106px;height:42px;width:42px}
+.icons-menu-system:hover,.icons-menu-system.menu-system-hover{background-position:0 -980px}
+.icons-message{background-position:0 -306px;height:26px;width:26px}
+.icons-money-p{background-position:-26px -280px;height:26px;width:26px}
+.icons-money{background-position:0 -102px;height:22px;width:22px}
+.icons-n{background-position:-26px -254px;height:26px;width:26px}
+.icons-op-user{background-position:0 -610px;height:40px;width:40px}
+.icons-op-user:hover,.icons-op-user.op-user-hover{background-position:0 -410px}
+.icons-operator-f{background-position:0 -650px;height:40px;width:40px}
+.icons-operator{background-position:0 -730px;height:40px;width:40px}
+.icons-operator:hover,.icons-operator.operator-hover{background-position:0 -690px}
+.icons-power{background-position:0 -254px;height:26px;width:26px}
+.icons-print{background-position:-26px -228px;height:26px;width:26px}
+.icons-remove{background-position:0 -80px;height:22px;width:24px}
+.icons-revenue{background-position:0 -896px;height:42px;width:42px}
+.icons-search-sm{background-position:0 -40px;height:20px;width:20px}
+.icons-search{background-position:0 -570px;height:40px;width:40px}
+.icons-sta{background-position:-26px -150px;height:26px;width:26px}
+.icons-time{background-position:-20px -40px;height:20px;width:20px}
+.icons-user-account{background-position:-26px -176px;height:26px;width:26px}
+.icons-user-balance{background-position:-26px -202px;height:26px;width:26px}
+.icons-user-funds-inverse{background-position:0 -450px;height:40px;width:40px}
+.icons-user-funds{background-position:0 -530px;height:40px;width:40px}
+.icons-user-funds:hover,.icons-user-funds.user-funds-hover{background-position:0 -490px}
+.icons-user-info{background-position:0 -228px;height:26px;width:26px}
+.icons-user{background-position:0 -280px;height:26px;width:26px}
+.icons-y{background-position:0 -150px;height:26px;width:26px}
+
+.icons-menu-project,.icons-menu-stats,.icons-menu-pm,.icons-menu-bank,.icons-menu-operater{background-position:0 -1106px;height:42px;width:42px;display:block}
+
+.icons-menu-project{background-image:url('../img/menu/icons-menu-project.png');background-repeat:no-repeat;}
+.icons-menu-stats{background-image:url('../img/menu/icons-menu-project.png');background-repeat:no-repeat;}
+.icons-menu-pm{background-image:url('../img/menu/icons-menu-project.png');background-repeat:no-repeat;}
+.icons-menu-bank{background-image:url('../img/menu/icons-menu-project.png');background-repeat:no-repeat;}
+.icons-menu-operater{background-image:url('../img/menu/icons-menu-project.png');background-repeat:no-repeat;}
+
+.page-content .page-title{overflow:hidden;color:#295cab;}
+.page-content .page-title a{float:left}
+.page-content .page-title i{float:left;margin-top:5px}
+.page-content .page-title h4{float:left;color:#295cab}
+.page-content .page-title h4 small{color:#295cab;display:block}
+.page-content .page-title h5{margin-left:35px}
+.page-content .page-title h5 span.title{float:left}
+.page-content .page-title h5 .edit{margin-top:-10px;margin-left:40px}
+/*.page-content #device-status-chart{min-height:413px;background:url(../img/format/status-bg.png) no-repeat right bottom;}*/
+.page-content #device-status-chart{min-height:413px;}
+.page-content #maintain-chart,.page-content #revenue-chart{height:83%}
+.page-content .status-view,.page-content .income-view,.page-content .maintain-view{border-radius:4px;background:#f7f7f7}
+.page-content .income-view,.page-content .maintain-view{height:49.4%}
+.col-md-6 .income-view:first-child{
+    margin-bottom: 2%;
+}
+.col-md-6 .income-view:last-child{
+    margin-top: 2%;
+}
+.page-content .income-view{margin-bottom:14px}
+.col-md-2.personal-funds-users{width:18.66667%}
+.col-md-10.personal-funds-main{width:81.33333%}
+.personal-funds-main{border-radius:4px;background:#f7f7f7}
+.personal-funds-main .user-account .page-title .icons-print{margin-top:-5px}
+.personal-funds-main .user-content .details{margin-bottom:20px}
+.personal-funds-main .user-content .details span+span{margin-left:20px}
+.personal-funds-main .user-content.operator{font-size:18px;color:#295cab;margin:40px 0;padding:10px 0}
+.personal-funds-main .account-content .details{margin-bottom:20px;padding:10px 20px;border:1px solid #eee}
+.personal-funds-main .account-content .details img{width:60px}
+.personal-funds-main .account-content .details span{margin-left:10px}
+.personal-funds-main .user-balance .number{font-size:48px;color:#295cab;margin:45px 0 50px 30px;padding:10px 0}
+.personal-funds-main .user-balance .number i{font-size:30px;font-style:normal}
+.personal-funds-main .mail-list{margin-top:15px;margin-bottom:65px;border-top:1px solid #eee}
+.personal-funds-main .mail-list .col-md-4{margin:15px 0}
+.personal-funds-main .mail-list .col-md-4 .badge{background:#aaaaaa;margin-right:15px}
+.personal-funds-main .station-info{margin:10px 0 30px}
+.personal-funds-main .station-info .clearfix{margin-bottom:20px}
+.personal-funds-users{padding:0}
+.personal-funds-users>.page-title{margin-top:0}
+.personal-funds-users h4,.personal-funds-users h4>small{color:#333 !important;font-weight:bold}
+.personal-funds-users h4 small{font-size:65%}
+.personal-funds-users .search{margin-right:14px}
+.personal-funds-users .search .icons-search{position:absolute;margin-top:-3px}
+.personal-funds-users .search input{border-radius:20px;padding-left:40px}
+.personal-funds-users .users{margin-top:20px}
+.personal-funds-users .users ul{list-style:none;padding:0}
+.personal-funds-users .users ul li{padding:10px 20px;border-top-left-radius:4px;border-bottom-left-radius:4px;background:#888;margin-bottom:5px}
+.personal-funds-users .users ul li.active{background:#f7f7f7}
+.personal-funds-users .eq-action>a{float:left;margin:20px 85px}
+body.page-login{background:#295cab url("../img/login/login-bg.png") no-repeat;background-size:cover}
+body.page-login .content{top:50%;left:50%;position:absolute;margin-top:-140px;margin-left:-260px}
+body.page-login .content .icons-l-user,body.page-login .content .icons-l-key{display:block;position:absolute;margin:14px 2px 4px 10px}
+body.page-login .content .icons-l-go{position:absolute;display:block;right:-5px;bottom:-1px}
+body.page-login .content .page-logo{margin-bottom:50px}
+body.page-login .content .page-logo img{margin-left:50px}
+body.page-login .content .page-logo h2{float:right;font-size:28px;color:#fff;margin-left:23px;margin-right:50px;padding-top:18px;font-weight:bold}
+body.page-login .content .form-control{height:52px;padding-left:40px}
+body.page-login .content .form-group+.form-group{margin-left:30px;position:relative}
+body.page-login .alert-warning{background:#dccd64;margin-top:16px;border-color:#94882d;color:#73780c;font-size:12px}
+body.page-login .alert-warning a{font-size:12.5px}
+body.page-login .alert-warning .icons-l-info{float:left;display:block;margin-top:-4px;margin-left:-6px;margin-right:6px}
+body.page-login .page-footer{font-size:16px;color:#FFF;position:absolute;bottom:53px;left:42%}
+.alarm-page{background:#fff !important}.alarm-page td>i{display:inline-block}
+.alarm-page .alarm-filter{padding:10px;margin-bottom:15px;border:1px solid #eee;border-radius:4px}
+.alarm-page .alarm-filter .form-group span{margin-left:15px;margin-right:15px}
+.alarm-page .alarm-filter .form-group+.form-group{margin:0 20px}
+.alarm-page .alarm-filter .icons-search-sm{position:absolute;margin:7px 0 0 8px}
+.alarm-page .alarm-filter input[type=search]{border-radius:20px;padding-left:30px}
+.alarm-page .alarm-filter .btn{padding-left:24px;padding-right:24px}
+/*文本框红色星号标识必填*/
+span.red{color:red;padding-right:3px;}

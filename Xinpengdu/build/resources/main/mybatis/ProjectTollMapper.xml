@@ -1,0 +1,512 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ProjectTollMapper">
+
+	<resultMap id="ProjectTollMap" type="ProjectToll">
+		<result column="projectTollId" property="projectTollId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="projectRateId" property="projectRateId" jdbcType="VARCHAR" />
+		<result column="externalGeldId" property="externalGeldId" jdbcType="VARCHAR" />
+		<result column="projectTollDate" property="projectTollDate" jdbcType="VARCHAR" />
+		<result column="automaticCalculation" property="automaticCalculation" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="importAmount" property="importAmount" jdbcType="VARCHAR" />
+		<result column="exportAmount" property="exportAmount" jdbcType="VARCHAR" />
+		<result column="materialGeld" property="materialGeld" jdbcType="VARCHAR" />
+		<result column="labourServiceFee" property="labourServiceFee" jdbcType="VARCHAR" />
+		<result column="manageCost" property="manageCost" jdbcType="VARCHAR" />
+		<result column="warrantyAmount" property="warrantyAmount" jdbcType="VARCHAR" />
+		<result column="backWarrantyAmount" property="backWarrantyAmount" jdbcType="VARCHAR" />
+		<result column="otherAmount" property="otherAmount" jdbcType="VARCHAR" />
+		<result column="vatSalesTax" property="vatSalesTax" jdbcType="VARCHAR" />
+		<result column="vatIncomeTax" property="vatIncomeTax" jdbcType="VARCHAR" />
+		<result column="cityBuildTax" property="cityBuildTax" jdbcType="VARCHAR" />
+		<result column="educationSurcharge" property="educationSurcharge" jdbcType="VARCHAR" />
+		<result column="localEducationAttached" property="localEducationAttached" jdbcType="VARCHAR" />
+		<result column="stampDuty" property="stampDuty" jdbcType="VARCHAR" />
+		<result column="individualIncomeTax" property="individualIncomeTax" jdbcType="VARCHAR" />
+		<result column="corporateIncomeTax" property="corporateIncomeTax" jdbcType="VARCHAR" />
+		<result column="waterBuildIncome" property="waterBuildIncome" jdbcType="VARCHAR" />
+		<result column="otherTax" property="otherTax" jdbcType="VARCHAR" />
+		<result column="supplementaryBusinessTax" property="supplementaryBusinessTax" jdbcType="VARCHAR" />
+		<result column="interest" property="interest" jdbcType="VARCHAR" />
+		<result column="companyFunds" property="companyFunds" jdbcType="VARCHAR" />
+		<result column="localBankDeposit" property="localBankDeposit" jdbcType="VARCHAR" />
+		<result column="localBankDepositBak" property="localBankDepositBak" jdbcType="VARCHAR" />
+		<result column="balance" property="balance" jdbcType="VARCHAR" />
+		<result column="balanceBak" property="balanceBak" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		projectTollId,projectId,projectRateId,externalGeldId,projectTollDate,automaticCalculation,summary,importAmount,exportAmount,materialGeld,labourServiceFee,
+		manageCost,warrantyAmount,backWarrantyAmount,otherAmount,vatSalesTax,vatIncomeTax,cityBuildTax,educationSurcharge,localEducationAttached,
+		stampDuty,individualIncomeTax,corporateIncomeTax,waterBuildIncome,otherTax,supplementaryBusinessTax,interest,companyFunds,localBankDeposit,localBankDepositBak,
+		balance,balanceBak,remark,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		projectTollId,projectId,projectRateId,externalGeldId,projectTollDate,automaticCalculation,summary,importAmount,exportAmount,materialGeld,labourServiceFee,
+		manageCost,warrantyAmount,backWarrantyAmount,otherAmount,vatSalesTax,vatIncomeTax,cityBuildTax,educationSurcharge,localEducationAttached,
+		stampDuty,individualIncomeTax,corporateIncomeTax,waterBuildIncome,otherTax,supplementaryBusinessTax,interest,companyFunds,localBankDeposit,localBankDepositBak,
+		balance,balanceBak,remark,createDate,lastUpdateDate
+		from projectToll pt
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+		order by pt.projectTollDate desc,pt.createDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from projectToll i
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="ProjectTollMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectToll where projectTollId = #{ProjectTollId}
+	</select>
+
+    <select id="query" resultMap="ProjectTollMap" parameterType="java.lang.String">
+        select
+        projectTollId,projectId,projectRateId,externalGeldId,projectTollDate,automaticCalculation,summary,importAmount,exportAmount,materialGeld,labourServiceFee,
+		manageCost,warrantyAmount,backWarrantyAmount,otherAmount,vatSalesTax,vatIncomeTax,cityBuildTax,educationSurcharge,localEducationAttached,
+		stampDuty,individualIncomeTax,corporateIncomeTax,waterBuildIncome,otherTax,supplementaryBusinessTax,interest,companyFunds,localBankDeposit,localBankDepositBak,
+		balance,balanceBak,remark,createDate,lastUpdateDate,
+        (select truncate(sum(replace(t.balance,',','')),2) balance from projectToll t where pt.createDate >= t.createDate) balance
+        from projectToll pt where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="ProjectTollMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from projectToll where projectTollId = #{value}
+	</select>
+
+	<select id="getByExternalGeldId" resultMap="ProjectTollMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from projectToll where externalGeldId = #{value}
+	</select>
+
+	<select id="getLatelySummary" resultType="java.lang.String" >
+		select summary from projectToll where externalGeldId is null  group by summary order by lastUpdateDate desc limit 5
+	</select>
+
+	<select id="getImportAmountTotal" resultType="java.lang.String" parameterType="java.lang.String">
+		select truncate(sum(replace(t.importAmount,',','')),2) from projectToll t where t.projectId = #{value}
+	</select>
+
+	<select id="getProjectTollList"  resultMap="ProjectTollMap" parameterType="map" >
+		select
+		projectTollId,projectId,projectRateId,externalGeldId,projectTollDate,automaticCalculation,summary,importAmount,exportAmount,materialGeld,labourServiceFee,
+		manageCost,warrantyAmount,backWarrantyAmount,otherAmount,vatSalesTax,vatIncomeTax,cityBuildTax,educationSurcharge,localEducationAttached,
+		stampDuty,individualIncomeTax,corporateIncomeTax,waterBuildIncome,otherTax,supplementaryBusinessTax,interest,companyFunds,localBankDeposit,localBankDepositBak,
+		balance,balanceBak,remark,createDate,lastUpdateDate
+        from projectToll pt 
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and pt.projectId = #{projectId}
+            </if>
+            <if test="automaticCalculation != null and automaticCalculation != ''">
+                and pt.automaticCalculation = #{automaticCalculation}
+            </if>
+            <if test="projectTollDate != null and projectTollDate != ''">
+                and #{projectTollDate} >= pt.projectTollDate
+			</if>
+        </where>
+        order by pt.projectTollDate desc,pt.createDate desc
+	</select>
+
+	<!-- 根据传入的工程收费时间获取该时间的前一条工程收费信息 -->
+	<select id="getProjectTollByTime" resultMap="ProjectTollMap" parameterType="map" >
+		select
+		projectTollId,projectId,projectRateId,externalGeldId,projectTollDate,automaticCalculation,summary,importAmount,exportAmount,materialGeld,labourServiceFee,
+		manageCost,warrantyAmount,backWarrantyAmount,otherAmount,vatSalesTax,vatIncomeTax,cityBuildTax,educationSurcharge,localEducationAttached,
+		stampDuty,individualIncomeTax,corporateIncomeTax,waterBuildIncome,otherTax,supplementaryBusinessTax,interest,companyFunds,localBankDeposit,localBankDepositBak,
+		balance,balanceBak,remark,createDate,lastUpdateDate
+		from projectToll pt
+		where  pt.projectId = #{projectId}
+		<if test="projectTollId != null and projectTollId != ''">
+			and pt.projectTollId != #{projectTollId}
+		</if>
+		and  ( #{projectTollDate} > pt.projectTollDate or (pt.projectTollDate = #{projectTollDate} and  #{createDate} > pt.createDate ) )
+		order by pt.projectTollDate desc,pt.createDate desc limit 0,1
+	</select>
+
+
+	<select id="getLocalDeposit" resultMap="ProjectTollMap" parameterType="string">
+        SELECT 
+		  TRUNCATE(SUM(REPLACE(pt.importAmount,',','')),2) importAmount,
+		  TRUNCATE(SUM(REPLACE(pt.exportAmount,',','')),2) exportAmount,
+		  TRUNCATE(SUM(REPLACE(pt.companyFunds,',','')),2) companyFunds
+		FROM projectToll pt WHERE pt.projectId = #{value}
+    </select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from ProjectToll where projectTollId = #{value}
+	</delete>
+
+	<delete id="deleteByExternalGeldId" parameterType="java.lang.String">
+		delete from ProjectToll where externalGeldId = #{value}
+	</delete>
+
+    <delete id="deleteByProjectId" parameterType="java.lang.String">
+        delete from ProjectToll where projectId = #{value}
+    </delete>
+
+	<insert id="save" parameterType="ProjectToll">
+		insert into projectToll
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectTollId != null" >
+				projectTollId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="projectRateId != null" >
+				projectRateId,
+			</if>
+			<if test="externalGeldId != null" >
+				externalGeldId,
+			</if>
+			<if test="projectTollDate != null" >
+				projectTollDate,
+			</if>
+			<if test="automaticCalculation != null" >
+				automaticCalculation,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="importAmount != null" >
+				importAmount,
+			</if>
+			<if test="exportAmount != null" >
+				exportAmount,
+			</if>
+			<if test="materialGeld != null" >
+				materialGeld,
+			</if>
+			<if test="labourServiceFee != null" >
+				labourServiceFee,
+			</if>
+			<if test="manageCost != null" >
+				manageCost,
+			</if>
+			<if test="warrantyAmount != null" >
+				warrantyAmount,
+			</if>
+			<if test="backWarrantyAmount != null" >
+				backWarrantyAmount,
+			</if>
+			<if test="otherAmount != null" >
+				otherAmount,
+			</if>
+			<if test="vatSalesTax != null" >
+				vatSalesTax,
+			</if>
+			<if test="vatIncomeTax != null" >
+				vatIncomeTax,
+			</if>
+			<if test="cityBuildTax != null" >
+				cityBuildTax,
+			</if>
+			<if test="educationSurcharge != null" >
+				educationSurcharge,
+			</if>
+			<if test="localEducationAttached != null" >
+				localEducationAttached,
+			</if>
+			<if test="stampDuty != null" >
+				stampDuty,
+			</if>
+			<if test="individualIncomeTax != null" >
+				individualIncomeTax,
+			</if>
+			<if test="corporateIncomeTax != null" >
+				corporateIncomeTax,
+			</if>
+			<if test="waterBuildIncome != null" >
+				waterBuildIncome,
+			</if>
+			<if test="otherTax != null" >
+				otherTax,
+			</if>
+			<if test="supplementaryBusinessTax != null" >
+				supplementaryBusinessTax,
+			</if>
+			<if test="interest != null" >
+				interest,
+			</if>
+			<if test="companyFunds != null" >
+				companyFunds,
+			</if>
+			<if test="localBankDeposit != null" >
+				localBankDeposit,
+			</if>
+			<if test="localBankDepositBak != null" >
+				localBankDepositBak,
+			</if>
+			<if test="balance != null" >
+				balance,
+			</if>
+			<if test="balanceBak != null" >
+				balanceBak,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectTollId != null" >
+				#{projectTollId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectRateId != null" >
+				#{projectRateId,jdbcType=VARCHAR},
+			</if>
+			<if test="externalGeldId != null" >
+				#{externalGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectTollDate != null" >
+				#{projectTollDate,jdbcType=VARCHAR},
+			</if>
+			<if test="automaticCalculation != null" >
+				#{automaticCalculation,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="importAmount != null" >
+				#{importAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="exportAmount != null" >
+				#{exportAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="materialGeld != null" >
+				#{materialGeld,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFee != null" >
+				#{labourServiceFee,jdbcType=VARCHAR},
+			</if>
+			<if test="manageCost != null" >
+				#{manageCost,jdbcType=VARCHAR},
+			</if>
+			<if test="warrantyAmount != null" >
+				#{warrantyAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="backWarrantyAmount != null" >
+				#{backWarrantyAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="otherAmount != null" >
+				#{otherAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="vatSalesTax != null" >
+				#{vatSalesTax,jdbcType=VARCHAR},
+			</if>
+			<if test="vatIncomeTax != null" >
+				#{vatIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="cityBuildTax != null" >
+				#{cityBuildTax,jdbcType=VARCHAR},
+			</if>
+			<if test="educationSurcharge != null" >
+				#{educationSurcharge,jdbcType=VARCHAR},
+			</if>
+			<if test="localEducationAttached != null" >
+				#{localEducationAttached,jdbcType=VARCHAR},
+			</if>
+			<if test="stampDuty != null" >
+				#{stampDuty,jdbcType=VARCHAR},
+			</if>
+			<if test="individualIncomeTax != null" >
+				#{individualIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="corporateIncomeTax != null" >
+				#{corporateIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="waterBuildIncome != null" >
+				#{waterBuildIncome,jdbcType=VARCHAR},
+			</if>
+			<if test="otherTax != null" >
+				#{otherTax,jdbcType=VARCHAR},
+			</if>
+			<if test="supplementaryBusinessTax != null" >
+				#{supplementaryBusinessTax,jdbcType=VARCHAR},
+			</if>
+			<if test="interest != null" >
+				#{interest,jdbcType=VARCHAR},
+			</if>
+			<if test="companyFunds != null" >
+				#{companyFunds,jdbcType=VARCHAR},
+			</if>
+			<if test="localBankDeposit != null" >
+				#{localBankDeposit,jdbcType=VARCHAR},
+			</if>
+			<if test="localBankDepositBak != null" >
+				#{localBankDepositBak,jdbcType=VARCHAR},
+			</if>
+			<if test="balance != null" >
+				#{balance,jdbcType=VARCHAR},
+			</if>
+			<if test="balanceBak != null" >
+				#{balanceBak,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="ProjectToll">
+		update projectToll
+		<set>
+			<if test="projectTollId != null" >
+				projectTollId = #{projectTollId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectRateId != null" >
+				projectRateId = #{projectRateId,jdbcType=VARCHAR},
+			</if>
+			<if test="externalGeldId != null" >
+				externalGeldId = #{externalGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectTollDate != null" >
+				projectTollDate = #{projectTollDate,jdbcType=VARCHAR},
+			</if>
+			<if test="automaticCalculation != null" >
+				automaticCalculation = #{automaticCalculation,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="importAmount != null" >
+				importAmount = #{importAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="exportAmount != null" >
+				exportAmount = #{exportAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="materialGeld != null" >
+				materialGeld = #{materialGeld,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFee != null" >
+				labourServiceFee = #{labourServiceFee,jdbcType=VARCHAR},
+			</if>
+			<if test="manageCost != null" >
+				manageCost = #{manageCost,jdbcType=VARCHAR},
+			</if>
+			<if test="warrantyAmount != null" >
+				warrantyAmount = #{warrantyAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="backWarrantyAmount != null" >
+				backWarrantyAmount = #{backWarrantyAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="otherAmount != null" >
+				otherAmount = #{otherAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="vatSalesTax != null" >
+				vatSalesTax = #{vatSalesTax,jdbcType=VARCHAR},
+			</if>
+			<if test="vatIncomeTax != null" >
+				vatIncomeTax = #{vatIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="cityBuildTax != null" >
+				cityBuildTax = #{cityBuildTax,jdbcType=VARCHAR},
+			</if>
+			<if test="educationSurcharge != null" >
+				educationSurcharge = #{educationSurcharge,jdbcType=VARCHAR},
+			</if>
+			<if test="localEducationAttached != null" >
+				localEducationAttached = #{localEducationAttached,jdbcType=VARCHAR},
+			</if>
+			<if test="stampDuty != null" >
+				stampDuty = #{stampDuty,jdbcType=VARCHAR},
+			</if>
+			<if test="individualIncomeTax != null" >
+				individualIncomeTax = #{individualIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="corporateIncomeTax != null" >
+				corporateIncomeTax = #{corporateIncomeTax,jdbcType=VARCHAR},
+			</if>
+			<if test="waterBuildIncome != null" >
+				waterBuildIncome = #{waterBuildIncome,jdbcType=VARCHAR},
+			</if>
+			<if test="otherTax != null" >
+				otherTax = #{otherTax,jdbcType=VARCHAR},
+			</if>
+			<if test="supplementaryBusinessTax != null" >
+				supplementaryBusinessTax = #{supplementaryBusinessTax,jdbcType=VARCHAR},
+			</if>
+			<if test="interest != null" >
+				interest = #{interest,jdbcType=VARCHAR},
+			</if>
+			<if test="companyFunds != null" >
+				companyFunds = #{companyFunds,jdbcType=VARCHAR},
+			</if>
+			<if test="localBankDeposit != null" >
+				localBankDeposit = #{localBankDeposit,jdbcType=VARCHAR},
+			</if>
+			<if test="localBankDepositBak != null" >
+				localBankDepositBak = #{localBankDepositBak,jdbcType=VARCHAR},
+			</if>
+			<if test="balance != null" >
+				balance = #{balance,jdbcType=VARCHAR},
+			</if>
+			<if test="balanceBak != null" >
+				balanceBak = #{balanceBak,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where projectTollId = #{projectTollId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updateTollBalance" parameterType="map">
+		update projectToll pt
+		set
+		pt.balance = FORMAT(REPLACE(pt.balance,',','') + REPLACE(#{balance},',',''),2),
+		pt.localBankDeposit = FORMAT(REPLACE(pt.localBankDeposit,',','') + REPLACE(#{localBankDeposit},',',''),2)
+		where projectId = #{projectId}
+		and pt.projectTollDate > #{projectTollDate} or ( pt.projectTollDate = #{projectTollDate} and pt.createDate > #{createDate} )
+	</update>
+
+</mapper>

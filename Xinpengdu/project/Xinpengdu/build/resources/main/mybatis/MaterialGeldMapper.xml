@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.MaterialGeldMapper">
+
+	<resultMap id="MaterialGeldMap" type="MaterialGeld">
+		<result column="materialGeldId" property="materialGeldId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="materialContractId" property="materialContractId" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="payDate" property="payDate" jdbcType="VARCHAR" />
+		<result column="payAmount" property="payAmount" jdbcType="VARCHAR" />
+		<result column="cumulativePayAmount" property="cumulativePayAmount" jdbcType="VARCHAR" />
+		<result column="noPayAmount" property="noPayAmount" jdbcType="VARCHAR" />
+		<result column="isAutoTransfer" property="isAutoTransfer" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		materialGeldId,projectId,materialContractId,summary,payDate,payAmount,cumulativePayAmount,noPayAmount,isAutoTransfer,remark,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from materialGeld i
+		<where>
+			and 0=0
+			<if test="materialContractId != null and materialContractId != ''">
+				and materialContractId = #{materialContractId}
+			</if>
+		</where>
+		order by i.payDate desc,i.createDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from materialGeld i
+		<where>
+			and 0=0
+			<if test="materialContractId != null and materialContractId != ''">
+				and materialContractId = #{materialContractId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="MaterialGeldMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from materialGeld where materialGeldId = #{materialGeldId}
+	</select>
+	
+    <select id="query" resultMap="MaterialGeldMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from materialGeld where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="MaterialGeldMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from materialGeld where materialGeldId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from materialGeld where
+		materialGeldId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="MaterialGeld">
+		insert into materialGeld
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="materialGeldId != null" >
+				materialGeldId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="materialContractId != null" >
+				materialContractId,
+			</if>
+			<if test="payDate != null" >
+				payDate,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="payAmount != null" >
+				payAmount,
+			</if>
+			<if test="cumulativePayAmount != null" >
+				cumulativePayAmount,
+			</if>
+			<if test="noPayAmount != null" >
+				noPayAmount,
+			</if>
+			<if test="isAutoTransfer != null" >
+				isAutoTransfer,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="materialGeldId != null" >
+				#{materialGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="materialContractId != null" >
+				#{materialContractId,jdbcType=VARCHAR},
+			</if>
+			<if test="payDate != null" >
+				#{payDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null" >
+				#{payAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="cumulativePayAmount != null" >
+				#{cumulativePayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="noPayAmount != null" >
+				#{noPayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoTransfer != null" >
+				#{isAutoTransfer,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="MaterialGeld">
+		update materialGeld
+		<set>
+			<if test="materialGeldId != null" >
+				materialGeldId = #{materialGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="materialContractId != null" >
+				materialContractId = #{materialContractId,jdbcType=VARCHAR},
+			</if>
+			<if test="payDate != null" >
+				payDate = #{payDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null" >
+				payAmount = #{payAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="cumulativePayAmount != null" >
+				cumulativePayAmount = #{cumulativePayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="noPayAmount != null" >
+				noPayAmount = #{noPayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoTransfer != null" >
+				isAutoTransfer = #{isAutoTransfer,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where materialGeldId = #{materialGeldId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updates" parameterType="map">
+		UPDATE materialGeld
+		set
+		cumulativePayAmount=REPLACE(cumulativePayAmount,',','')+#{differVal},
+		noPayAmount=REPLACE(noPayAmount,',','')-#{differVal}
+		where payDate>#{date}
+	</update>
+
+</mapper>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!--整合Spring的时候 只有 settings typeAliases属性 -->
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="defaultExecutorType" value="REUSE" /> <!-- 使用预处理执行器 -->
+		<setting name="defaultStatementTimeout" value="25" />
+		<setting name="localCacheScope" value="SESSION" />
+		<setting name="logImpl" value="STDOUT_LOGGING" />
+	</settings>
+	<typeAliases>
+		<!-- Mybaits配置 -->
+		<typeAlias type="com.xinpengdu.entity.project.Operater" alias="Operater" />
+		<typeAlias type="com.xinpengdu.entity.project.ProjectInfo" alias="ProjectInfo" />
+		<typeAlias type="com.xinpengdu.entity.project.ProjectManager" alias="ProjectManager" />
+		<typeAlias type="com.xinpengdu.entity.project.ProjectRate" alias="ProjectRate" />
+		<typeAlias type="com.xinpengdu.entity.project.ProjectToll" alias="ProjectToll" />
+		<typeAlias type="com.xinpengdu.entity.project.BankInput" alias="BankInput" />
+		<typeAlias type="com.xinpengdu.entity.project.Invoice" alias="Invoice" />
+		<typeAlias type="com.xinpengdu.entity.project.InvoiceTaxBill" alias="InvoiceTaxBill" />
+		<typeAlias type="com.xinpengdu.entity.project.Receipt" alias="Receipt" />
+	    <typeAlias type="com.xinpengdu.entity.project.Evection" alias="Evection" />
+	    <typeAlias type="com.xinpengdu.entity.project.EvectionPostpone" alias="EvectionPostpone" />
+	    <typeAlias type="com.xinpengdu.entity.project.Certigier" alias="Certigier" />
+	    <typeAlias type="com.xinpengdu.entity.project.ProjectStatInfo" alias="ProjectStatInfo" />
+		<typeAlias type="com.xinpengdu.entity.project.MaterialContract" alias="MaterialContract" />
+		<typeAlias type="com.xinpengdu.entity.project.MaterialGeld" alias="MaterialGeld" />
+		<typeAlias type="com.xinpengdu.entity.project.MaterialInvoice" alias="MaterialInvoice" />
+		<typeAlias type="com.xinpengdu.entity.project.LabourServiceFee" alias="LabourServiceFee" />
+		<typeAlias type="com.xinpengdu.entity.project.LabourServiceGeld" alias="LabourServiceGeld" />
+		<typeAlias type="com.xinpengdu.entity.project.LabourServiceInvoice" alias="LabourServiceInvoice" />
+
+		<typeAlias type="com.xinpengdu.entity.access.Menu" alias="Menu" />
+		<typeAlias type="com.xinpengdu.entity.access.Role" alias="Role" />
+		<typeAlias type="com.xinpengdu.entity.access.RolePermissionRecord" alias="RolePermissionRecord" />
+		<typeAlias type="com.xinpengdu.entity.access.UserPermissionRecord" alias="UserPermissionRecord" />
+
+	</typeAliases>
+
+
+</configuration>

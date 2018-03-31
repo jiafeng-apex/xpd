@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ProjectStatInfoMapper">
+
+  <select id="getProjectInfoStat" resultType="map" parameterType="map" >
+      SELECT  
+        SUM(REPLACE(importAmount,',','')) importAmountStat,
+        SUM(REPLACE(exportAmount,',','')) exportAmountStat,
+        SUM(REPLACE(manageCost,',','')) manageRateStat,
+        SUM(REPLACE(balancebak,',','')) projectTotalBalance,
+        SUM(REPLACE(companyFunds,',','')) companyFundsStat,
+        SUM(REPLACE(warrantyAmount,',','')) warrantyRateStat,
+        SUM(REPLACE(backWarrantyAmount,',','')) backWarrantyAmountStat,
+        SUM(REPLACE(supplementaryBusinessTax,',','')) supplementaryBusinessTaxStat,
+        SUM(REPLACE(stampDuty,',','')) stampDutyRateStat,
+        SUM(REPLACE(otherAmount,',','')) otherTaxRateStat,
+        SUM(REPLACE(interest,',','')) interestStat,
+        SUM(REPLACE(localBankDeposit,',','')) localBankDepositStat,
+        SUM(REPLACE(individualIncomeTax,',','')) individualIncomeTaxStat,
+        SUM(REPLACE(corporateIncomeTax,',','')) corporateIncomeTaxStat,
+		SUM(REPLACE(vatSalesTax,',','')) vatSalesTaxStat,
+		SUM(REPLACE(educationSurcharge,',','')) educationSurchargeStat,
+		SUM(REPLACE(localEducationAttached,',','')) localEducationAttachedStat,
+		SUM(REPLACE(vatIncomeTax,',','')) vatIncomeTaxStat,
+		SUM(REPLACE(materialGeld,',','')) materialGeldStat,
+		SUM(REPLACE(cityBuildTax,',','')) cityBuildTaxStat,
+		SUM(REPLACE(labourServiceFee,',','')) labourServiceFeeStat
+        FROM projectToll 
+        GROUP BY projectId 
+       HAVING projectId = #{projectId}
+  </select>
+  
+  <select id="getPmTotalAmount" resultType="java.lang.String" parameterType="map" >
+    SELECT SUM(REPLACE(pt.balance,',','')) pmTotalAmount FROM projectToll pt WHERE pt.projectId IN 
+      (SELECT p.projectId FROM projectInfo p WHERE p.pmId = #{pmId})
+  </select>
+  
+  <select id="getInvoiceAmountStat" resultType="ProjectStatInfo"  parameterType="map" >
+    SELECT SUM(REPLACE(invoiceAmount,',','')) invoiceAmountStat,SUM(REPLACE(tax,',','')) taxStat  FROM invoice GROUP BY projectId 
+      HAVING projectId = #{projectId}
+  </select>
+  
+  <select id="getReceiptAmountStat" resultType="java.lang.String" parameterType="map" >
+    SELECT SUM(REPLACE(receiptAmount,',','')) receiptAmountStat FROM receipt GROUP BY projectId 
+      HAVING projectId = #{projectId} 
+  </select>
+
+
+
+	<select id="getProjectInfoStat1" resultType="ProjectStatInfo" parameterType="map" >
+		SELECT * FROM 
+		(
+			SELECT  
+				SUM(REPLACE(importAmount,',','')) importAmountStat,
+				SUM(REPLACE(exportAmount,',','')) exportAmountStat,
+				SUM(REPLACE(manageCost,',','')) manageRateStat,
+				SUM(REPLACE(balance,',','')) projectTotalBalance,
+				SUM(REPLACE(corporateIncomeTax,',','')) companyFundsStat,
+				SUM(REPLACE(warrantyAmount,',','')) warrantyRateStat,
+				SUM(REPLACE(backWarrantyAmount,',','')) backWarrantyAmountStat,
+				SUM(REPLACE(supplementaryBusinessTax,',','')) supplementaryBusinessTaxStat,
+				SUM(REPLACE(stampDuty,',','')) stampDutyRateStat,
+				SUM(REPLACE(otherAmount,',','')) otherTaxRateStat,
+				SUM(REPLACE(interest,',','')) interestStat,
+				SUM(REPLACE(localBankDeposit,',','')) localBankDepositStat,
+				SUM(REPLACE(individualIncomeTax,',','')) individualIncomeTaxStat,
+				SUM(REPLACE(corporateIncomeTax,',','')) corporateIncomeTaxStat
+				FROM projectToll 
+				GROUP BY projectId,importAmount,exportAmount,manageCost,balance,corporateIncomeTax,warrantyAmount,backWarrantyAmount,
+			       supplementaryBusinessTax,stampDuty,otherAmount,interest,localBankDeposit,individualIncomeTax,corporateIncomeTax 
+			 HAVING projectId = #{projectId}
+		) a
+		,  
+		(
+			SELECT SUM(REPLACE(pt.balance,',','')) pmTotalAmount FROM projectToll pt WHERE pt.projectId IN 
+			(SELECT p.projectId FROM projectInfo p WHERE p.pmId = #{pmId}
+		) b
+		,
+		(
+			SELECT SUM(REPLACE(invoiceAmount,',','')) invoiceAmountStat  FROM invoice GROUP BY projectId,invoiceAmount 
+			HAVING projectId = #{projectId}
+		) c
+		,
+		(
+			SELECT SUM(REPLACE(receiptAmount,',','')) receiptAmountStat  FROM receipt GROUP BY projectId,receiptAmount
+			HAVING projectId = #{projectId} 
+		) d
+	</select>
+
+	<select id="getInvoiceStat" resultType="map" parameterType="map" >
+		select
+			SUM(REPLACE(invoiceAmount,',','')) invoiceAmountStat,
+			SUM(REPLACE(tax,',','')) taxStat,
+			SUM(REPLACE(taxTotal,',','')) taxTotalStat
+		from invoice
+		where projectId = #{projectId}
+	</select>
+
+	<select id="getInvoiceTaxBillStat" resultType="map" parameterType="map" >
+		select projectId,tollageType,
+			SUM(REPLACE(addedValueTaxValue,',','')) addedValueTaxValueStat,
+			SUM(REPLACE(corporateIncomeTaxValue,',','')) corporateIncomeTaxValueStat,
+			SUM(REPLACE(individualIncomeTaxValue,',','')) individualIncomeTaxValueStat,
+			SUM(REPLACE(stampDutyValue,',','')) stampDutyValueStat,
+			SUM(REPLACE(constructionTaxValue,',','')) constructionTaxValueStat,
+			SUM(REPLACE(educationalSurtaxValue,',','')) educationalSurtaxValueStat,
+			SUM(REPLACE(areaEducationalSurtaxValue,',',''))areaEducationalSurtaxValueStat,
+			SUM(REPLACE(waterBuildTaxValue,',','')) waterBuildTaxValueStat,
+			SUM(REPLACE(otherTaxValue,',','')) otherTaxValueStat
+		from invoicetaxbill
+		where projectId = #{projectId}
+		GROUP BY tollageType
+	</select>
+
+	<select id="getContractAmountTotalOfLabourserviceinvoice" resultType="java.lang.Integer" parameterType="map" >
+		select
+			SUM(REPLACE(contractAmount,',','')) contractAmountTotal from labourservicefee
+		where projectId = #{projectId}
+	</select>
+
+	<select id="getPayAmountTotalOfLabourserviceinvoice" resultType="java.lang.Integer" parameterType="map" >
+		select
+			SUM(REPLACE(payAmount,',','')) payAmountTotal from labourservicegeld
+		where projectId = #{projectId}
+	</select>
+
+	<select id="getLabourserviceinvoiceStat" resultType="map" parameterType="map" >
+		select
+			taxRates,
+			sum(REPLACE(amount,',','')) amountStat,
+			sum(REPLACE(taxAmount,',','')) taxAmountStat,
+			sum(REPLACE(taxPriceAmount,',','')) taxPriceAmountStat
+		from labourserviceinvoice
+		where projectId = #{projectId}
+		GROUP BY taxRates ORDER BY  CONVERT(taxRates,SIGNED) asc
+	</select>
+
+	<select id="getContractAmountTotalOfMaterialContract" resultType="java.lang.Integer" parameterType="map" >
+		select
+			SUM(REPLACE(contractAmount,',','')) contractAmountTotal from materialContract
+		where projectId = #{projectId}
+	</select>
+
+	<select id="getPayAmountTotalOfMaterialContract" resultType="java.lang.Integer" parameterType="map" >
+		select
+			SUM(REPLACE(payAmount,',','')) payAmountTotal from materialgeld
+		where projectId = #{projectId}
+	</select>
+
+	<select id="getMaterialContractStat" resultType="map" parameterType="map" >
+		select
+			taxRate taxRates,
+			sum(REPLACE(amount,',','')) amountStat,
+			sum(REPLACE(taxAmount,',','')) taxAmountStat,
+			sum(REPLACE(taxPrice,',','')) taxPriceAmountStat
+		from materialinvoice
+		where projectId = #{projectId}
+		GROUP BY taxRate ORDER BY  CONVERT(taxRates,SIGNED) asc
+	</select>
+
+</mapper>

@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ProjectManagerMapper">
+
+	<resultMap id="ProjectManagerMap" type="ProjectManager">
+		<result column="pmId" property="pmId" jdbcType="VARCHAR" />
+		<result column="pmName" property="pmName" jdbcType="VARCHAR" />
+		<result column="pmSex" property="pmSex" jdbcType="VARCHAR" />
+		<result column="pmPhone" property="pmPhone" jdbcType="VARCHAR" />
+		<result column="pmTelphone" property="pmTelphone" jdbcType="VARCHAR" />
+		<result column="pmFax" property="pmFax" jdbcType="VARCHAR" />
+		<result column="pmEmail" property="pmEmail" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="projectTotal" property="projectTotal" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		pmId,pmName,pmSex,pmPhone,pmTelphone,pmFax,pmEmail,remark,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		pm.pmId,pm.pmName,pm.pmSex,pm.pmPhone,pm.pmTelphone,pm.pmFax,pm.pmEmail,pm.remark,
+		(select SUM(REPLACE(pt.balance,',','')) from projectToll pt where pt.projectId in  
+		(select p.projectId from projectInfo p where p.pmId = pm.pmId)
+		) projectTotal
+		from projectManager pm
+		<where>
+			and 0=0
+			<if test="pmName != null and pmName!= ''">
+				and pm.pmName like '%${pmName}%'
+			</if>
+		</where>
+		order by pm.lastUpdateDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from projectManager pm
+		<where>
+			and 0=0
+			<if test="pmName != null and pmName!= ''">
+				and pm.pmName like '%${pmName}%'
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="ProjectManagerMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectManager pm
+		<where>
+            and 0=0
+            <if test="pmId != null and pmId != ''">
+                and pm.pmId = #{pmId}
+            </if>
+            <if test="pmName != null and pmName != ''">
+                and pm.pmName = #{pmName}
+            </if>
+            <if test="pmPhone != null and pmPhone != ''">
+                and pm.pmPhone = #{pmPhone}
+            </if>
+        </where> 
+	</select>
+
+    <select id="query" resultMap="ProjectManagerMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from projectManager where pmId = #{value}
+    </select>
+	
+	<select id="get" resultMap="ProjectManagerMap" parameterType="java.lang.String">
+		select
+		pm.pmId,pm.pmName,pm.pmSex,pm.pmPhone,pm.pmTelphone,pm.pmFax,pm.pmEmail,pm.remark,
+    (select SUM(REPLACE(pt.balance,',','')) from projectToll pt where pt.projectId in  
+    (select p.projectId from projectInfo p where p.pmId = pm.pmId)
+    ) projectTotal
+		from projectManager pm where pm.pmId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from projectManager
+		where
+		pmId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="ProjectManager">
+		insert into projectManager
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+		  <if test="pmId != null">
+        pmId,
+      </if>
+			<if test="pmName != null">
+				pmName,
+			</if>
+			<if test="pmSex != null">
+				pmSex,
+			</if>
+			<if test="pmPhone != null">
+				pmPhone,
+			</if>
+			<if test="pmTelphone != null">
+				pmTelphone,
+			</if>
+			<if test="pmFax != null">
+				pmFax,
+			</if>
+			<if test="pmEmail != null">
+				pmEmail,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="pmId != null">
+			  #{pmId,jdbcType=VARCHAR},
+			</if>
+			<if test="pmName != null">
+			  #{pmName,jdbcType=VARCHAR},
+			</if>
+			<if test="pmSex != null">
+				#{pmSex,jdbcType=VARCHAR},
+			</if>
+			<if test="pmPhone != null">
+				#{pmPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="pmTelphone != null">
+				#{pmTelphone,jdbcType=VARCHAR},
+			</if>
+			<if test="pmFax != null">
+				#{pmFax,jdbcType=VARCHAR},
+			</if>
+			<if test="pmEmail != null">
+				#{pmEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="ProjectManager">
+		update projectManager
+		<set>
+			<if test="pmName != null">
+				pmName = #{pmName,jdbcType=VARCHAR},
+			</if>
+			<if test="pmSex != null">
+				pmSex = #{pmSex,jdbcType=VARCHAR},
+			</if>
+			<if test="pmPhone != null">
+				pmPhone = #{pmPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="pmTelphone != null">
+				pmTelphone = #{pmTelphone,jdbcType=VARCHAR},
+			</if>
+			<if test="pmFax != null">
+				pmFax = #{pmFax,jdbcType=VARCHAR},
+			</if>
+			<if test="pmEmail != null">
+				pmEmail = #{pmEmail,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where pmId = #{pmId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

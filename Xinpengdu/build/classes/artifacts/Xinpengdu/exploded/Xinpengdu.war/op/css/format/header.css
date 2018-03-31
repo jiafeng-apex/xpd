@@ -1,0 +1,36 @@
+body {
+	font-family: Microsoft YaHei,'宋体' , Tahoma, Helvetica, Arial, "\5b8b\4f53", sans-serif;
+	/*-webkit-font-smoothing: antialiased;*/
+}
+
+.clear {
+	clear: both;
+}
+
+.datagrid .panel-body {
+	padding: 0;
+}
+
+.table {
+	margin-bottom: 10px;
+}
+
+.modal-dialog .modal-footer {
+	margin-top: 0;
+}
+
+.form-horizontal .alert {
+	margin-bottom: 0;
+	display: none;
+}
+
+.modal-body .alert, .modal-footer .alert {
+	margin-bottom: 0;
+	display: none;
+}
+
+.borderRadius4 {
+	-moz-border-radius: 4px;      /* Gecko browsers */
+	-webkit-border-radius: 4px;   /* Webkit browsers */
+	border-radius: 4px;           /* W3C syntax */
+}

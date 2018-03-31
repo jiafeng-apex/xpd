@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.LabourServiceInvoiceMapper">
+
+	<resultMap id="LabourServiceInvoiceMap" type="LabourServiceInvoice">
+		<result column="labourServiceInvoiceId" property="labourServiceInvoiceId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="labourServiceFeeId" property="labourServiceFeeId" jdbcType="VARCHAR" />
+		<result column="invoiceNumber" property="invoiceNumber" jdbcType="VARCHAR" />
+		<result column="registrationDate" property="registrationDate" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="invoiceDate" property="invoiceDate" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+		<result column="taxRates" property="taxRates" jdbcType="VARCHAR" />
+		<result column="taxAmount" property="taxAmount" jdbcType="VARCHAR" />
+		<result column="taxPriceAmount" property="taxPriceAmount" jdbcType="VARCHAR" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="invoiceType" property="invoiceType" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="externalInvoiceId" property="externalInvoiceId" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		labourServiceInvoiceId,projectId,labourServiceFeeId,invoiceNumber,registrationDate,summary,invoiceDate,amount,taxRates,taxAmount,taxPriceAmount,goodsName,invoiceType,remark,externalInvoiceId,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from labourServiceInvoice i
+		<where>
+			and 0=0
+			<if test="labourServiceFeeId != null and labourServiceFeeId != ''">
+				and labourServiceFeeId = #{labourServiceFeeId}
+			</if>
+		</where>
+		order by i.registrationDate desc,i.createDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from labourServiceInvoice i
+		<where>
+			and 0=0
+			<if test="labourServiceFeeId != null and labourServiceFeeId != ''">
+				and labourServiceFeeId = #{labourServiceFeeId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="LabourServiceInvoiceMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from labourServiceInvoice where labourServiceInvoiceId = #{labourServiceInvoiceId}
+	</select>
+	
+    <select id="query" resultMap="LabourServiceInvoiceMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from labourServiceInvoice where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="LabourServiceInvoiceMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from labourServiceInvoice where labourServiceInvoiceId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from labourServiceInvoice where
+		labourServiceInvoiceId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="LabourServiceInvoice">
+		insert into labourServiceInvoice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="labourServiceInvoiceId != null" >
+				labourServiceInvoiceId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId,
+			</if>
+			<if test="invoiceNumber != null" >
+				invoiceNumber,
+			</if>
+			<if test="registrationDate != null" >
+				registrationDate,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="invoiceDate != null" >
+				invoiceDate,
+			</if>
+			<if test="amount != null" >
+				amount,
+			</if>
+			<if test="taxRates != null" >
+				taxRates,
+			</if>
+			<if test="taxAmount != null" >
+				taxAmount,
+			</if>
+			<if test="taxPriceAmount != null" >
+				taxPriceAmount,
+			</if>
+			<if test="goodsName != null" >
+				goodsName,
+			</if>
+			<if test="invoiceType != null" >
+				invoiceType,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="externalInvoiceId != null" >
+				externalInvoiceId,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="labourServiceInvoiceId != null" >
+				#{labourServiceInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFeeId != null" >
+				#{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceNumber != null" >
+				#{invoiceNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="registrationDate != null" >
+				#{registrationDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceDate != null" >
+				#{invoiceDate,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				#{amount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxRates != null" >
+				#{taxRates,jdbcType=VARCHAR},
+			</if>
+			<if test="taxAmount != null" >
+				#{taxAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxPriceAmount != null" >
+				#{taxPriceAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceType != null" >
+				#{invoiceType,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="externalInvoiceId != null" >
+				#{externalInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="LabourServiceInvoice">
+		update labourServiceInvoice
+		<set>
+			<if test="labourServiceInvoiceId != null" >
+				labourServiceInvoiceId = #{labourServiceInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId = #{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceNumber != null" >
+				invoiceNumber = #{invoiceNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="registrationDate != null" >
+				registrationDate = #{registrationDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceDate != null" >
+				invoiceDate = #{invoiceDate,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				amount = #{amount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxRates != null" >
+				taxRates = #{taxRates,jdbcType=VARCHAR},
+			</if>
+			<if test="taxAmount != null" >
+				taxAmount = #{taxAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxPriceAmount != null" >
+				taxPriceAmount = #{taxPriceAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				goodsName = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceType != null" >
+				invoiceType = #{invoiceType,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="externalInvoiceId != null" >
+				externalInvoiceId = #{externalInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where labourServiceInvoiceId = #{labourServiceInvoiceId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getNeedSyncList" resultMap="LabourServiceInvoiceMap" parameterType="map">
+		select
+			<include refid="baseColumn" />
+		from labourserviceinvoice l
+		where not EXISTS(
+			SELECT externalInvoiceId FROM invoice i
+			WHERE i.externalInvoiceId = l.labourServiceInvoiceId
+		)
+		and l.projectId in
+		(
+			select projectId from  projectinfo p where p.invoiceSyncDate =#{invoiceSyncDate}
+		)
+	</select>
+
+	<select id="getChooseSyncList" resultMap="LabourServiceInvoiceMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from labourServiceInvoice m
+		where labourServiceInvoiceId in
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<delete id="updateByExternalInvoiceId" parameterType="java.lang.String">
+		update labourServiceInvoice set externalInvoiceId=null where
+		externalInvoiceId = #{value}
+	</delete>
+</mapper>

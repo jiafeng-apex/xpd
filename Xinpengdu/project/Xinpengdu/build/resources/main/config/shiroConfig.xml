@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+			http://www.springframework.org/schema/beans/spring-beans-4.2.xsd">
+
+    <!-- Shiro相关配置 -->
+
+    <!-- 继承自AuthorizingRealm的自定义Realm,即指定Shiro验证用户登录的类为自定义的ShiroDbRealm.java -->
+    <bean id="chargeRealm" class="com.xinpengdu.web.shiro.realm.ChargeRealm"/>
+
+    <!-- Shiro默认会使用Servlet容器的Session,可通过sessionMode属性来指定使用Shiro原生Session -->
+    <!-- 即<property name="sessionMode" value="native"/>,详细说明见官方文档 -->
+    <!-- 这里主要是设置自定义的单Realm应用,若有多个Realm,可使用'realms'属性代替 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realm" ref="chargeRealm"/>
+    </bean>
+
+    <!-- Shiro主过滤器本身功能十分强大,其强大之处就在于它支持任何基于URL路径表达式的、自定义的过滤器的执行 -->
+    <!-- Web应用中,Shiro可控制的Web请求必须经过Shiro主过滤器的拦截,Shiro对基于Spring的Web应用提供了完美的支持 -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <!-- Shiro的核心安全接口,这个属性是必须的 -->
+        <property name="securityManager" ref="securityManager"/>
+
+        <property name="filterChainDefinitions">
+            <value>
+                /api/card/sender/**=anon
+                /op/common/download/**=anon
+                /api/app/update/download/**=anon
+                /api/app/user/**/agreement=anon
+                /api/app/user/**/aboutUs=anon
+                /api/app/user/aboutUsPage/common/**=anon
+                /api/app/user/agreementPage/common/**=anon
+                /api/app/user/recharge/notify=anon
+                /api/app/alipay/notify=anon
+                /api/app/paypal/notify=anon
+                /api/mpwx/getPlatformInfoByAppId=anon
+                /api/mpwx/getPlatformAppId=anon
+                /api/token/getMpAccessToken=authcBasic
+                /api/app/**=authcBasic
+                /api/platform/**=authcBasic
+                /op/maintain/tool/**=anon
+                /platform/powershare/**=anon
+            </value>
+        </property>
+    </bean>
+
+    <!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+</beans>

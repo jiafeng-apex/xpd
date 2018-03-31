@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ReceiptMapper">
+
+	<resultMap id="ReceiptMap" type="Receipt">
+		<result column="receiptId" property="receiptId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="receiptDate" property="receiptDate" jdbcType="VARCHAR" />
+		<result column="receiptNO" property="receiptNO" jdbcType="VARCHAR" />
+		<result column="receiptAmount" property="receiptAmount" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		receiptId,projectId,receiptDate,receiptNO,receiptAmount,remark,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from receipt i
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+		order by i.receiptDate desc,i.createDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from receipt i
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="ReceiptMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from receipt where receiptId = #{receiptId}
+	</select>
+
+    <select id="query" resultMap="ReceiptMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from receipt where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="ReceiptMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from receipt where receiptId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from receipt
+		where
+		receiptId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="Receipt">
+		insert into receipt
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="receiptId != null">
+				receiptId,
+			</if>
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="receiptDate != null">
+				receiptDate,
+			</if>
+			<if test="receiptNO != null">
+				receiptNO,
+			</if>
+			<if test="receiptAmount != null">
+				receiptAmount,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="receiptId != null">
+				#{receiptId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptDate != null">
+				#{receiptDate,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptNO != null">
+				#{receiptNO,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptAmount != null">
+				#{receiptAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="Receipt">
+		update receipt
+		<set>
+			<if test="receiptId != null">
+				receiptId = #{receiptId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptDate != null">
+				receiptDate = #{receiptDate,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptNO != null">
+				receiptNO = #{receiptNO,jdbcType=VARCHAR},
+			</if>
+			<if test="receiptAmount != null">
+				receiptAmount = #{receiptAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where receiptId = #{receiptId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

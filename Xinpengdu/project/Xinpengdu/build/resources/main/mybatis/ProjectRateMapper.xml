@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ProjectRateMapper">
+
+	<resultMap id="ProjectRateMap" type="ProjectRate">
+		<result column="projectRateId" property="projectRateId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+        <result column="projectTollId" property="projectTollId" jdbcType="VARCHAR" />
+		<result column="manageRate" property="manageRate" jdbcType="VARCHAR" />
+		<result column="warrantyRate" property="warrantyRate" jdbcType="VARCHAR" />
+		<result column="supplementaryBusinessTax" property="supplementaryBusinessTax" jdbcType="VARCHAR" />
+		<result column="corporateIncomeTax" property="corporateIncomeTax" jdbcType="VARCHAR" />
+		<result column="individualIncomeTax" property="individualIncomeTax" jdbcType="VARCHAR" />
+		<result column="stampDutyRate" property="stampDutyRate" jdbcType="VARCHAR" />
+		<result column="otherTaxRate" property="otherTaxRate" jdbcType="VARCHAR" />
+
+		<result column="vatSalesTax" property="vatSalesTax" jdbcType="VARCHAR" />
+		<result column="cityBuildTax" property="cityBuildTax" jdbcType="VARCHAR" />
+		<result column="localEducationAttached" property="localEducationAttached" jdbcType="VARCHAR" />
+		<result column="educationSurcharge" property="educationSurcharge" jdbcType="VARCHAR" />
+		<result column="waterBuildIncome" property="waterBuildIncome" jdbcType="VARCHAR" />
+
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		projectRateId,projectId,projectTollId,manageRate,warrantyRate,supplementaryBusinessTax,corporateIncomeTax,individualIncomeTax,
+		stampDutyRate,otherTaxRate,vatSalesTax,cityBuildTax,localEducationAttached,educationSurcharge,waterBuildIncome,createDate,lastUpdateDate
+	</sql>
+
+    <select id="queryList" resultType="map" parameterType="map" >
+        select
+        <include refid="baseColumn" />
+        from projectRate i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+        </where>
+        order by i.lastUpdateDate desc
+    </select>
+
+    <select id="count" resultType="int" parameterType="map">
+        select  count(*)
+        from projectRate i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+        </where>
+    </select>
+
+	<select id="getEditInfo" resultMap="ProjectRateMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectRate where ProjectRateId = #{ProjectRateId}
+	</select>
+
+	<select id="query" resultMap="ProjectRateMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from projectRate where projectId = #{value}
+	</select>
+
+	<select id="get" resultMap="ProjectRateMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from projectRate where projectRateId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from projectRate
+		where
+		projectRateId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="ProjectRate">
+		insert into projectRate
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectRateId != null">
+                projectRateId,
+            </if>
+            <if test="projectId != null">
+                projectId,
+            </if>
+            <if test="manageRate != null">
+                manageRate,
+            </if>
+            <if test="warrantyRate != null">
+                warrantyRate,
+            </if>
+            <if test="supplementaryBusinessTax != null">
+                supplementaryBusinessTax,
+            </if>
+            <if test="corporateIncomeTax != null">
+                corporateIncomeTax,
+            </if>
+            <if test="individualIncomeTax != null">
+                individualIncomeTax,
+            </if>
+            <if test="stampDutyRate != null">
+                stampDutyRate,
+            </if>
+            <if test="otherTaxRate != null">
+                otherTaxRate,
+            </if>
+            <if test="vatSalesTax != null">
+                vatSalesTax,
+            </if>
+            <if test="cityBuildTax != null">
+                cityBuildTax,
+            </if>
+            <if test="localEducationAttached != null">
+                localEducationAttached,
+            </if>
+            <if test="educationSurcharge != null">
+                educationSurcharge,
+            </if>
+            <if test="waterBuildIncome != null">
+                waterBuildIncome,
+            </if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectRateId != null">
+                #{projectRateId,jdbcType=VARCHAR},
+            </if>
+			<if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+			<if test="manageRate != null">
+                #{manageRate,jdbcType=VARCHAR},
+            </if>
+            <if test="warrantyRate != null">
+                #{warrantyRate,jdbcType=VARCHAR},
+            </if>
+            <if test="supplementaryBusinessTax != null">
+                #{supplementaryBusinessTax,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTax != null">
+                #{corporateIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTax != null">
+                #{individualIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDutyRate != null">
+                #{stampDutyRate,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTaxRate != null">
+                #{otherTaxRate,jdbcType=VARCHAR},
+            </if>
+            <if test="vatSalesTax != null">
+                #{vatSalesTax,jdbcType=VARCHAR},
+            </if>
+            <if test="cityBuildTax != null">
+                #{cityBuildTax,jdbcType=VARCHAR},
+            </if>
+            <if test="localEducationAttached != null">
+                #{localEducationAttached,jdbcType=VARCHAR},
+            </if>
+            <if test="educationSurcharge != null">
+                #{educationSurcharge,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildIncome != null">
+                #{waterBuildIncome,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="ProjectRate">
+		update projectRate
+		<set>
+            <if test="projectId != null">
+                projectId = #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectTollId != null">
+                projectTollId = #{projectTollId,jdbcType=VARCHAR},
+            </if>
+            <if test="manageRate != null">
+                manageRate = #{manageRate,jdbcType=VARCHAR},
+            </if>
+            <if test="warrantyRate != null">
+                warrantyRate = #{warrantyRate,jdbcType=VARCHAR},
+            </if>
+            <if test="supplementaryBusinessTax != null">
+                supplementaryBusinessTax = #{supplementaryBusinessTax,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTax != null">
+                corporateIncomeTax = #{corporateIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTax != null">
+                individualIncomeTax = #{individualIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDutyRate != null">
+                stampDutyRate = #{stampDutyRate,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTaxRate != null">
+                otherTaxRate = #{otherTaxRate,jdbcType=VARCHAR},
+            </if>
+            <if test="vatSalesTax != null">
+                vatSalesTax = #{vatSalesTax,jdbcType=VARCHAR},
+            </if>
+            <if test="cityBuildTax != null">
+                cityBuildTax = #{cityBuildTax,jdbcType=VARCHAR},
+            </if>
+            <if test="localEducationAttached != null">
+                localEducationAttached = #{localEducationAttached,jdbcType=VARCHAR},
+            </if>
+            <if test="educationSurcharge != null">
+                educationSurcharge = #{educationSurcharge,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildIncome != null">
+                waterBuildIncome = #{waterBuildIncome,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where projectRateId = #{projectRateId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

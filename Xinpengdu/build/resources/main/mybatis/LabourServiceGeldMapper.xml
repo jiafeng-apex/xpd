@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.LabourServiceGeldMapper">
+
+	<resultMap id="LabourServiceGeldMap" type="LabourServiceGeld">
+		<result column="labourServiceGeldId" property="labourServiceGeldId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="labourServiceFeeId" property="labourServiceFeeId" jdbcType="VARCHAR" />
+		<result column="payDate" property="payDate" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="payAmount" property="payAmount" jdbcType="VARCHAR" />
+		<result column="cumulativePayAmount" property="cumulativePayAmount" jdbcType="VARCHAR" />
+		<result column="noPayAmount" property="noPayAmount" jdbcType="VARCHAR" />
+		<result column="isAutoTransfer" property="isAutoTransfer" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		labourServiceGeldId,projectId,labourServiceFeeId,payDate,summary,payAmount,cumulativePayAmount,noPayAmount,isAutoTransfer,remark,createDate,lastUpdateDate
+	</sql>
+    
+	<select id="queryList" resultType="map" parameterType="map" >
+        select 
+        <include refid="baseColumn" />
+        from labourServiceGeld i
+        <where>
+            and 0=0
+			<if test="labourServiceFeeId != null and labourServiceFeeId != ''">
+				and labourServiceFeeId = #{labourServiceFeeId}
+			</if>
+        </where>
+        order by i.payDate desc,i.createDate desc
+    </select>
+
+	<select id="count" resultType="int" parameterType="map">
+        select  count(*)
+        from labourServiceGeld i
+        <where>
+            and 0=0
+			<if test="labourServiceFeeId != null and labourServiceFeeId != ''">
+				and labourServiceFeeId = #{labourServiceFeeId}
+			</if>
+        </where>
+    </select>
+
+	<select id="getEditInfo" resultMap="LabourServiceGeldMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from labourServiceGeld where labourServiceGeldId = #{labourServiceGeldId}
+	</select>
+	
+    <select id="query" resultMap="LabourServiceGeldMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from labourServiceGeld where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="LabourServiceGeldMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from labourServiceGeld where labourServiceGeldId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from labourServiceGeld where
+		labourServiceGeldId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="LabourServiceGeld">
+		insert into labourServiceGeld
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="labourServiceGeldId != null" >
+				labourServiceGeldId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId,
+			</if>
+			<if test="payDate != null" >
+				payDate,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="payAmount != null" >
+				payAmount,
+			</if>
+			<if test="cumulativePayAmount != null" >
+				cumulativePayAmount,
+			</if>
+			<if test="noPayAmount != null" >
+				noPayAmount,
+			</if>
+			<if test="isAutoTransfer != null" >
+				isAutoTransfer,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="labourServiceGeldId != null" >
+				#{labourServiceGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFeeId != null" >
+				#{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="payDate != null" >
+				#{payDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null" >
+				#{payAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="cumulativePayAmount != null" >
+				#{cumulativePayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="noPayAmount != null" >
+				#{noPayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoTransfer != null" >
+				#{isAutoTransfer,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="LabourServiceGeld">
+		update labourServiceGeld
+		<set>
+			<if test="labourServiceGeldId != null" >
+				labourServiceGeldId = #{labourServiceGeldId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId = #{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="payDate != null" >
+				payDate = #{payDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="payAmount != null" >
+				payAmount = #{payAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="cumulativePayAmount != null" >
+				cumulativePayAmount = #{cumulativePayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="noPayAmount != null" >
+				noPayAmount = #{noPayAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="isAutoTransfer != null" >
+				isAutoTransfer = #{isAutoTransfer,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where labourServiceGeldId = #{labourServiceGeldId,jdbcType=VARCHAR}
+	</update>
+
+	<update id="updates" parameterType="map">
+		UPDATE labourservicegeld
+		set
+			cumulativePayAmount=REPLACE(cumulativePayAmount,',','')+#{differVal},
+			noPayAmount=REPLACE(noPayAmount,',','')-#{differVal}
+		where payDate>#{date}
+	</update>
+</mapper>

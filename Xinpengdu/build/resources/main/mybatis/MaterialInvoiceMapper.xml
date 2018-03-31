@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.MaterialInvoiceMapper">
+
+	<resultMap id="MaterialInvoiceMap" type="MaterialInvoice">
+		<result column="materialInvoiceId" property="materialInvoiceId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="materialContractId" property="materialContractId" jdbcType="VARCHAR" />
+		<result column="invoiceNumber" property="invoiceNumber" jdbcType="VARCHAR" />
+		<result column="registrationDate" property="registrationDate" jdbcType="VARCHAR" />
+		<result column="summary" property="summary" jdbcType="VARCHAR" />
+		<result column="invoiceDate" property="invoiceDate" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="VARCHAR" />
+		<result column="taxRate" property="taxRate" jdbcType="VARCHAR" />
+		<result column="taxAmount" property="taxAmount" jdbcType="VARCHAR" />
+		<result column="taxPrice" property="taxPrice" jdbcType="VARCHAR" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="invoiceType" property="invoiceType" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="externalInvoiceId" property="externalInvoiceId" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		materialInvoiceId,projectId,materialContractId,invoiceNumber,registrationDate,summary,invoiceDate,amount,taxRate,taxAmount,taxPrice,goodsName,invoiceType,remark,externalInvoiceId,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from materialInvoice i
+		<where>
+			and 0=0
+			<if test="materialContractId != null and materialContractId != ''">
+				and materialContractId = #{materialContractId}
+			</if>
+		</where>
+		order by i.registrationDate desc,i.createDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from materialInvoice i
+		<where>
+			and 0=0
+			<if test="materialContractId != null and materialContractId != ''">
+				and materialContractId = #{materialContractId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="MaterialInvoiceMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from materialInvoice where materialInvoiceId = #{materialInvoiceId}
+	</select>
+	
+    <select id="query" resultMap="MaterialInvoiceMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from materialInvoice where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="MaterialInvoiceMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from materialInvoice where materialInvoiceId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from materialInvoice where
+		materialInvoiceId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="MaterialInvoice">
+		insert into materialInvoice
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="materialInvoiceId != null" >
+				materialInvoiceId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="materialContractId != null" >
+				materialContractId,
+			</if>
+			<if test="invoiceNumber != null" >
+				invoiceNumber,
+			</if>
+			<if test="registrationDate != null" >
+				registrationDate,
+			</if>
+			<if test="summary != null" >
+				summary,
+			</if>
+			<if test="invoiceDate != null" >
+				invoiceDate,
+			</if>
+			<if test="amount != null" >
+				amount,
+			</if>
+			<if test="taxRate != null" >
+				taxRate,
+			</if>
+			<if test="taxAmount != null" >
+				taxAmount,
+			</if>
+			<if test="taxPrice != null" >
+				taxPrice,
+			</if>
+			<if test="goodsName != null" >
+				goodsName,
+			</if>
+			<if test="invoiceType != null" >
+				invoiceType,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="externalInvoiceId != null" >
+				externalInvoiceId,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="materialInvoiceId != null" >
+				#{materialInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="materialContractId != null" >
+				#{materialContractId,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceNumber != null" >
+				#{invoiceNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="registrationDate != null" >
+				#{registrationDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				#{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceDate != null" >
+				#{invoiceDate,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				#{amount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxRate != null" >
+				#{taxRate,jdbcType=VARCHAR},
+			</if>
+			<if test="taxAmount != null" >
+				#{taxAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxPrice != null" >
+				#{taxPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceType != null" >
+				#{invoiceType,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="externalInvoiceId != null" >
+				#{externalInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="MaterialInvoice">
+		update materialInvoice
+		<set>
+			<if test="materialInvoiceId != null" >
+				materialInvoiceId = #{materialInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="materialContractId != null" >
+				materialContractId = #{materialContractId,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceNumber != null" >
+				invoiceNumber = #{invoiceNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="registrationDate != null" >
+				registrationDate = #{registrationDate,jdbcType=VARCHAR},
+			</if>
+			<if test="summary != null" >
+				summary = #{summary,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceDate != null" >
+				invoiceDate = #{invoiceDate,jdbcType=VARCHAR},
+			</if>
+			<if test="amount != null" >
+				amount = #{amount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxRate != null" >
+				taxRate = #{taxRate,jdbcType=VARCHAR},
+			</if>
+			<if test="taxAmount != null" >
+				taxAmount = #{taxAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="taxPrice != null" >
+				taxPrice = #{taxPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null" >
+				goodsName = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceType != null" >
+				invoiceType = #{invoiceType,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="externalInvoiceId != null" >
+				externalInvoiceId = #{externalInvoiceId,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where materialInvoiceId = #{materialInvoiceId,jdbcType=VARCHAR}
+	</update>
+
+
+	<select id="getNeedSyncList" resultMap="MaterialInvoiceMap" parameterType="map">
+		select
+			<include refid="baseColumn" />
+		from materialinvoice m
+		where not EXISTS(
+			SELECT externalInvoiceId FROM invoice i
+			WHERE i.externalInvoiceId = m.materialInvoiceId
+		)
+		and m.projectId in
+		(
+			select projectId from  projectinfo p where p.invoiceSyncDate =#{invoiceSyncDate}
+		)
+	</select>
+
+	<select id="getChooseSyncList" resultMap="MaterialInvoiceMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from materialinvoice m
+		where materialInvoiceId in
+		<foreach item="item" index="index" collection="ids" open="(" separator="," close=")">
+			#{item}
+		</foreach>
+	</select>
+
+	<delete id="updateByExternalInvoiceId" parameterType="java.lang.String">
+		update materialInvoice set externalInvoiceId=null where
+		externalInvoiceId = #{value}
+	</delete>
+
+</mapper>

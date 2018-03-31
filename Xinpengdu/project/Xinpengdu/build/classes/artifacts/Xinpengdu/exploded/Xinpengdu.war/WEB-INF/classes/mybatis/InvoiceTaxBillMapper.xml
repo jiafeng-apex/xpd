@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.InvoiceTaxBillMapper">
+
+    <resultMap id="InvoiceTaxBillMap" type="InvoiceTaxBill">
+        <result column="invoiceTaxBillId" property="invoiceTaxBillId" jdbcType="VARCHAR" />
+        <result column="invoiceId" property="invoiceId" jdbcType="VARCHAR" />
+        <result column="projectId" property="projectId" jdbcType="VARCHAR" />
+        <result column="tollageType" property="tollageType" jdbcType="VARCHAR" />
+        <result column="addedValueTax" property="addedValueTax" jdbcType="VARCHAR" />
+        <result column="addedValueTaxValue" property="addedValueTaxValue" jdbcType="VARCHAR" />
+        <result column="constructionTax" property="constructionTax" jdbcType="VARCHAR" />
+        <result column="constructionTaxValue" property="constructionTaxValue" jdbcType="VARCHAR" />
+        <result column="areaEducationalSurtax" property="areaEducationalSurtax" jdbcType="VARCHAR" />
+        <result column="areaEducationalSurtaxValue" property="areaEducationalSurtaxValue" jdbcType="VARCHAR" />
+        <result column="educationalSurtax" property="educationalSurtax" jdbcType="VARCHAR" />
+        <result column="educationalSurtaxValue" property="educationalSurtaxValue" jdbcType="VARCHAR" />
+        <result column="individualIncomeTax" property="individualIncomeTax" jdbcType="VARCHAR" />
+        <result column="individualIncomeTaxValue" property="individualIncomeTaxValue" jdbcType="VARCHAR" />
+        <result column="corporateIncomeTax" property="corporateIncomeTax" jdbcType="VARCHAR" />
+        <result column="corporateIncomeTaxValue" property="corporateIncomeTaxValue" jdbcType="VARCHAR" />
+        <result column="otherTax" property="otherTax" jdbcType="VARCHAR" />
+        <result column="otherTaxValue" property="otherTaxValue" jdbcType="VARCHAR" />
+        <result column="stampDuty" property="stampDuty" jdbcType="VARCHAR" />
+        <result column="stampDutyValue" property="stampDutyValue" jdbcType="VARCHAR" />
+        <result column="waterBuildTax" property="waterBuildTax" jdbcType="VARCHAR" />
+        <result column="waterBuildTaxValue" property="waterBuildTaxValue" jdbcType="VARCHAR" />
+        <result column="taxPeriod" property="taxPeriod" jdbcType="VARCHAR" />
+        <result column="taxBillTotal" property="taxBillTotal" jdbcType="VARCHAR" />
+        <result column="szSubtotal" property="szSubtotal" jdbcType="VARCHAR" />
+        <result column="localSubtotal" property="localSubtotal" jdbcType="VARCHAR" />
+        <result column="nationalTaxBillNo" property="nationalTaxBillNo" jdbcType="VARCHAR" />
+        <result column="landTaxNo" property="landTaxNo" jdbcType="VARCHAR" />
+        <result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <sql id="baseColumn">
+		invoiceTaxBillId,invoiceId,projectId,tollageType,addedValueTax,addedValueTaxValue,constructionTax,constructionTaxValue,areaEducationalSurtax,
+		areaEducationalSurtaxValue,educationalSurtax,educationalSurtaxValue,individualIncomeTax,individualIncomeTaxValue,corporateIncomeTax,
+		corporateIncomeTaxValue,otherTax,otherTaxValue,stampDuty,stampDutyValue,waterBuildTax,waterBuildTaxValue,taxPeriod,taxBillTotal,szSubtotal,
+		localSubtotal,nationalTaxBillNo,landTaxNo,remark,createDate,lastUpdateDate
+	</sql>
+
+    <select id="queryList" resultType="map" parameterType="map">
+        select
+        <include refid="baseColumn"/>
+        from invoiceTaxBill i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+            <if test="invoiceId != null and invoiceId != ''">
+                and invoiceId = #{invoiceId}
+            </if>
+        </where>
+        order by i.lastUpdateDate desc
+    </select>
+
+    <select id="count" resultType="int" parameterType="map">
+        select count(*)
+        from invoice i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getEditInfo" resultMap="InvoiceTaxBillMap" parameterType="map">
+        select
+        <include refid="baseColumn"/>
+        from invoiceTaxBill where invoiceTaxBillId = #{invoiceTaxBillId}
+    </select>
+
+    <select id="query" resultType="map" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn"/>
+        from invoiceTaxBill where invoiceId = #{value}
+    </select>
+
+    <select id="get" resultMap="InvoiceTaxBillMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn"/>
+        from invoiceTaxBill where invoiceTaxBillId = #{value}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+		delete from invoice where
+		invoiceTaxBillId = #{value}
+	</delete>
+
+    <insert id="save" parameterType="InvoiceTaxBill">
+        insert into invoiceTaxBill
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="invoiceTaxBillId != null" >
+                invoiceTaxBillId,
+            </if>
+            <if test="invoiceId != null" >
+                invoiceId,
+            </if>
+            <if test="projectId != null" >
+                projectId,
+            </if>
+            <if test="tollageType != null" >
+                tollageType,
+            </if>
+            <if test="addedValueTax != null" >
+                addedValueTax,
+            </if>
+            <if test="addedValueTaxValue != null" >
+                addedValueTaxValue,
+            </if>
+            <if test="constructionTax != null" >
+                constructionTax,
+            </if>
+            <if test="constructionTaxValue != null" >
+                constructionTaxValue,
+            </if>
+            <if test="areaEducationalSurtax != null" >
+                areaEducationalSurtax,
+            </if>
+            <if test="areaEducationalSurtaxValue != null" >
+                areaEducationalSurtaxValue,
+            </if>
+            <if test="educationalSurtax != null" >
+                educationalSurtax,
+            </if>
+            <if test="educationalSurtaxValue != null" >
+                educationalSurtaxValue,
+            </if>
+            <if test="individualIncomeTax != null" >
+                individualIncomeTax,
+            </if>
+            <if test="individualIncomeTaxValue != null" >
+                individualIncomeTaxValue,
+            </if>
+            <if test="corporateIncomeTax != null" >
+                corporateIncomeTax,
+            </if>
+            <if test="corporateIncomeTaxValue != null" >
+                corporateIncomeTaxValue,
+            </if>
+            <if test="otherTax != null" >
+                otherTax,
+            </if>
+            <if test="otherTaxValue != null" >
+                otherTaxValue,
+            </if>
+            <if test="stampDuty != null" >
+                stampDuty,
+            </if>
+            <if test="stampDutyValue != null" >
+                stampDutyValue,
+            </if>
+            <if test="waterBuildTax != null" >
+                waterBuildTax,
+            </if>
+            <if test="waterBuildTaxValue != null" >
+                waterBuildTaxValue,
+            </if>
+            <if test="taxPeriod != null" >
+                taxPeriod,
+            </if>
+            <if test="taxBillTotal != null" >
+                taxBillTotal,
+            </if>
+            <if test="szSubtotal != null" >
+                szSubtotal,
+            </if>
+            <if test="localSubtotal != null" >
+                localSubtotal,
+            </if>
+            <if test="nationalTaxBillNo != null" >
+                nationalTaxBillNo,
+            </if>
+            <if test="landTaxNo != null" >
+                landTaxNo,
+            </if>
+            <if test="remark != null" >
+                remark,
+            </if>
+            <if test="createDate != null" >
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null" >
+                lastUpdateDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="invoiceTaxBillId != null" >
+                #{invoiceTaxBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceId != null" >
+                #{invoiceId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null" >
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="tollageType != null" >
+                #{tollageType,jdbcType=VARCHAR},
+            </if>
+            <if test="addedValueTax != null" >
+                #{addedValueTax,jdbcType=VARCHAR},
+            </if>
+            <if test="addedValueTaxValue != null" >
+                #{addedValueTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="constructionTax != null" >
+                #{constructionTax,jdbcType=VARCHAR},
+            </if>
+            <if test="constructionTaxValue != null" >
+                #{constructionTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="areaEducationalSurtax != null" >
+                #{areaEducationalSurtax,jdbcType=VARCHAR},
+            </if>
+            <if test="areaEducationalSurtaxValue != null" >
+                #{areaEducationalSurtaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="educationalSurtax != null" >
+                #{educationalSurtax,jdbcType=VARCHAR},
+            </if>
+            <if test="educationalSurtaxValue != null" >
+                #{educationalSurtaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTax != null" >
+                #{individualIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTaxValue != null" >
+                #{individualIncomeTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTax != null" >
+                #{corporateIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTaxValue != null" >
+                #{corporateIncomeTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTax != null" >
+                #{otherTax,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTaxValue != null" >
+                #{otherTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDuty != null" >
+                #{stampDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDutyValue != null" >
+                #{stampDutyValue,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildTax != null" >
+                #{waterBuildTax,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildTaxValue != null" >
+                #{waterBuildTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="taxPeriod != null" >
+                #{taxPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="taxBillTotal != null" >
+                #{taxBillTotal,jdbcType=VARCHAR},
+            </if>
+            <if test="szSubtotal != null" >
+                #{szSubtotal,jdbcType=VARCHAR},
+            </if>
+            <if test="localSubtotal != null" >
+                #{localSubtotal,jdbcType=VARCHAR},
+            </if>
+            <if test="nationalTaxBillNo != null" >
+                #{nationalTaxBillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="landTaxNo != null" >
+                #{landTaxNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null" >
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="InvoiceTaxBill">
+        update invoiceTaxBill
+        <set>
+            <if test="invoiceTaxBillId != null" >
+                invoiceTaxBillId = #{invoiceTaxBillId,jdbcType=VARCHAR},
+            </if>
+            <if test="invoiceId != null" >
+                invoiceId = #{invoiceId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null" >
+                projectId = #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="tollageType != null" >
+                tollageType = #{tollageType,jdbcType=VARCHAR},
+            </if>
+            <if test="addedValueTax != null" >
+                addedValueTax = #{addedValueTax,jdbcType=VARCHAR},
+            </if>
+            <if test="addedValueTaxValue != null" >
+                addedValueTaxValue = #{addedValueTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="constructionTax != null" >
+                constructionTax = #{constructionTax,jdbcType=VARCHAR},
+            </if>
+            <if test="constructionTaxValue != null" >
+                constructionTaxValue = #{constructionTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="areaEducationalSurtax != null" >
+                areaEducationalSurtax = #{areaEducationalSurtax,jdbcType=VARCHAR},
+            </if>
+            <if test="areaEducationalSurtaxValue != null" >
+                areaEducationalSurtaxValue = #{areaEducationalSurtaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="educationalSurtax != null" >
+                educationalSurtax = #{educationalSurtax,jdbcType=VARCHAR},
+            </if>
+            <if test="educationalSurtaxValue != null" >
+                educationalSurtaxValue = #{educationalSurtaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTax != null" >
+                individualIncomeTax = #{individualIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="individualIncomeTaxValue != null" >
+                individualIncomeTaxValue = #{individualIncomeTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTax != null" >
+                corporateIncomeTax = #{corporateIncomeTax,jdbcType=VARCHAR},
+            </if>
+            <if test="corporateIncomeTaxValue != null" >
+                corporateIncomeTaxValue = #{corporateIncomeTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTax != null" >
+                otherTax = #{otherTax,jdbcType=VARCHAR},
+            </if>
+            <if test="otherTaxValue != null" >
+                otherTaxValue = #{otherTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDuty != null" >
+                stampDuty = #{stampDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="stampDutyValue != null" >
+                stampDutyValue = #{stampDutyValue,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildTax != null" >
+                waterBuildTax = #{waterBuildTax,jdbcType=VARCHAR},
+            </if>
+            <if test="waterBuildTaxValue != null" >
+                waterBuildTaxValue = #{waterBuildTaxValue,jdbcType=VARCHAR},
+            </if>
+            <if test="taxPeriod != null" >
+                taxPeriod = #{taxPeriod,jdbcType=VARCHAR},
+            </if>
+            <if test="taxBillTotal != null" >
+                taxBillTotal = #{taxBillTotal,jdbcType=VARCHAR},
+            </if>
+            <if test="szSubtotal != null" >
+                szSubtotal = #{szSubtotal,jdbcType=VARCHAR},
+            </if>
+            <if test="localSubtotal != null" >
+                localSubtotal = #{localSubtotal,jdbcType=VARCHAR},
+            </if>
+            <if test="nationalTaxBillNo != null" >
+                nationalTaxBillNo = #{nationalTaxBillNo,jdbcType=VARCHAR},
+            </if>
+            <if test="landTaxNo != null" >
+                landTaxNo = #{landTaxNo,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null" >
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null" >
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null" >
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where invoiceTaxBillId = #{invoiceTaxBillId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

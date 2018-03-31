@@ -1,0 +1,199 @@
+#usernameHolder {
+	margin-bottom: 5px;
+	color: white;
+	font-weight: bold;
+	text-align: center;
+}
+
+.page-sidebar .page-sidebar-menu li ul.sub-menu {
+	padding-left: 26px;
+	width: 100%;
+    min-width: 615px;
+}
+.page-sidebar .page-sidebar-menu li:nth-of-type(2) ul.sub-menu {
+    padding-left: 26px;
+    width: 100%;
+    min-width: 320px;
+}
+
+.sub-menu li {
+	width: 98px;
+}
+
+.page-sidebar .page-sidebar-menu .sub-menu li>a {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.sub-menu li i {
+	margin: 0 auto;
+}
+
+.sub-menu li span {
+	display: inline-block;
+	width: 100%;
+	text-align: center;
+}
+
+i.icons-menu {
+	height: 40px;
+    width: 40px;
+    background-repeat: no-repeat;
+}
+
+i.icons-menu-engate {
+    background-image: url('../../img/format/menu/menu_engate_w.png');
+}
+i.icons-menu-engate:hover {
+    background-image: url('../../img/format/menu/menu_engate.png');
+}
+i.icons-menu-ic-user {
+    background-image: url('../../img/format/menu/menu_ic_user_w.png');
+}
+i.icons-menu-ic-user:hover {
+    background-image: url('../../img/format/menu/menu_ic_user.png');
+}
+i.icons-menu-charger {
+    background-image: url('../../img/format/menu/menu_charger_w.png');
+}
+i.icons-menu-charger:hover {
+    background-image: url('../../img/format/menu/menu_charger.png');
+}
+i.icons-menu-station {
+    background-image: url('../../img/format/menu/menu_station_w.png');
+}
+i.icons-menu-station:hover {
+    background-image: url('../../img/format/menu/menu_station.png');
+}
+i.icons-menu-stations {
+    background-image: url('../../img/format/menu/menu_stations_w.png');
+}
+i.icons-menu-stations:hover {
+    background-image: url('../../img/format/menu/menu_stations.png');
+}
+i.icons-menu-order-list {
+    background-image: url('../../img/format/menu/menu_order_list_w.png');
+}
+i.icons-menu-order-list:hover {
+    background-image: url('../../img/format/menu/menu_order_list.png');
+}
+i.icons-menu-order-detail {
+    background-image: url('../../img/format/menu/menu_order_detail_w.png');
+}
+i.icons-menu-order-detail:hover {
+    background-image: url('../../img/format/menu/menu_order_detail.png');
+}
+i.icons-menu-server {
+    background-image: url('../../img/format/menu/menu_server_w.png');
+}
+i.icons-menu-server:hover {
+    background-image: url('../../img/format/menu/menu_server.png');
+}
+i.icons-menu-alarm-list {
+    background-image: url('../../img/format/menu/menu_alarm_list_w.png');
+}
+i.icons-menu-alarm-list:hover {
+    background-image: url('../../img/format/menu/menu_alarm_list.png');
+}
+i.icons-menu-alarm-config {
+    background-image: url('../../img/format/menu/menu_alarm_config_w.png');
+}
+i.icons-menu-alarm-config:hover {
+    background-image: url('../../img/format/menu/menu_alarm_config.png');
+}
+i.icons-menu-user-info {
+    background-image: url('../../img/format/menu/menu_user_info_w.png');
+}
+i.icons-menu-user-info:hover {
+    background-image: url('../../img/format/menu/menu_user_info.png');
+}
+i.icons-menu-work-data {
+    background-image: url('../../img/format/menu/menu_work_data_w.png');
+}
+i.icons-menu-work-data:hover {
+    background-image: url('../../img/format/menu/menu_work_data.png');
+}
+i.icons-menu-role-permission {
+    background-image: url('../../img/format/menu/menu_role_permission_w.png');
+}
+i.icons-menu-role-permission:hover {
+    background-image: url('../../img/format/menu/menu_role_permission.png');
+}
+i.icons-menu-modify-password {
+    background-image: url('../../img/format/menu/menu_modify_password_w.png');
+}
+i.icons-menu-modify-password:hover {
+    background-image: url('../../img/format/menu/menu_modify_password.png');
+}
+i.icons-menu-platform-param {
+    background-image: url('../../img/format/menu/menu_platform_param_w.png');
+}
+i.icons-menu-platform-param:hover {
+    background-image: url('../../img/format/menu/menu_platform_param.png');
+}
+i.icons-menu-platform-payment {
+    background-image: url('../../img/format/menu/menu_platform_payment_w.png');
+}
+i.icons-menu-platform-payment:hover {
+    background-image: url('../../img/format/menu/menu_platform_payment.png');
+}
+i.icons-menu-platform-fund {
+    background-image: url('../../img/format/menu/menu_platform_fund_w.png');
+}
+i.icons-menu-platform-fund:hover {
+    background-image: url('../../img/format/menu/menu_platform_fund.png');
+}
+i.icons-menu-commu-debug {
+    background-image: url('../../img/format/menu/menu_commu_debug_w.png');
+}
+i.icons-menu-commu-debug:hover {
+    background-image: url('../../img/format/menu/menu_commu_debug.png');
+}
+i.icons-menu-logout {
+    background-image: url('../../img/format/menu/menu_logout_w.png');
+}
+i.icons-menu-logout:hover {
+    background-image: url('../../img/format/menu/menu_logout.png');
+}
+i.icons-menu-analyze-overview {
+    background-image: url('../../img/format/menu/menu_analyze_overview_w.png');
+}
+i.icons-menu-analyze-overview:hover {
+    background-image: url('../../img/format/menu/menu_analyze_overview.png');
+}
+i.icons-menu-mail-sender {
+    background-image: url('../../img/format/menu/menu_mail_sender_w.png');
+}
+i.icons-menu-mail-sender:hover {
+    background-image: url('../../img/format/menu/menu_mail_sender.png');
+}
+i.icons-menu-config-param {
+    background-image: url('../../img/format/menu/menu_config_param_w.png');
+}
+i.icons-menu-config-param:hover {
+    background-image: url('../../img/format/menu/menu_config_param.png');
+}
+i.icons-menu-company-list {
+    background-image: url('../../img/format/menu/menu_company_list_w.png');
+}
+i.icons-menu-company-list:hover {
+    background-image: url('../../img/format/menu/menu_company_list.png');
+}
+i.icons-menu-company-fund {
+    background-image: url('../../img/format/menu/menu_company_fund_w.png');
+}
+i.icons-menu-company-fund:hover {
+    background-image: url('../../img/format/menu/menu_company_fund.png');
+}
+i.icons-menu-company-user-list {
+    background-image: url('../../img/format/menu/menu_company_user_list_w.png');
+}
+i.icons-menu-company-user-list:hover {
+    background-image: url('../../img/format/menu/menu_company_user_list.png');
+}
+i.icons-menu-analyze-station {
+    background-image: url('../../img/format/menu/menu_analyze_station_w.png');
+}
+i.icons-menu-analyze-station:hover {
+    background-image: url('../../img/format/menu/menu_analyze_station.png');
+}

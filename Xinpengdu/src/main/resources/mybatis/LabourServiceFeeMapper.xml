@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.LabourServiceFeeMapper">
+
+	<resultMap id="LabourServiceFeeMap" type="LabourServiceFee">
+		<result column="labourServiceFeeId" property="labourServiceFeeId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="serviceBusinessName" property="serviceBusinessName" jdbcType="VARCHAR" />
+		<result column="telephone" property="telephone" jdbcType="VARCHAR" />
+		<result column="companyOpeningBank" property="companyOpeningBank" jdbcType="VARCHAR" />
+		<result column="accountOpeningAaccount" property="accountOpeningAaccount" jdbcType="VARCHAR" />
+		<result column="signingDate" property="signingDate" jdbcType="VARCHAR" />
+		<result column="laburServiceMaterial" property="laburServiceMaterial" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="VARCHAR" />
+		<result column="unitPrice" property="unitPrice" jdbcType="VARCHAR" />
+		<result column="contractAmount" property="contractAmount" jdbcType="VARCHAR" />
+		<result column="settlementAmount" property="settlementAmount" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		labourServiceFeeId,projectId,serviceBusinessName,telephone,companyOpeningBank,accountOpeningAaccount,signingDate,laburServiceMaterial,taxIdentificationNumber,quantity,unitPrice,contractAmount,settlementAmount,remark,createDate,lastUpdateDate
+	</sql>
+    
+	<select id="queryList1" resultType="map" parameterType="map">
+        select 
+        <include refid="baseColumn" />
+		from labourServiceFee i
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+        order by i.lastUpdateDate desc
+    </select>
+
+	<select id="queryList" resultType="map" parameterType="map">
+		select l.*,itemp.*,gtemp.*,(REPLACE(l.contractAmount,',','')-gtemp.payAmountTotal) noPayAmountTotal  from labourservicefee l LEFT JOIN
+			(
+			select SUM(REPLACE(amount,',','')) amountTotal,SUM(REPLACE(taxAmount,',','')) taxAmountTotal,SUM(REPLACE(taxPriceAmount,',','')) taxPriceAmountTotal,labourServiceFeeId labourServiceFeeId_1  from labourserviceinvoice i  GROUP BY i.labourServiceFeeId
+			) itemp on l.labourServiceFeeId=itemp.labourServiceFeeId_1
+		LEFT JOIN
+			(
+			select SUM(REPLACE(payAmount,',','')) payAmountTotal,labourServiceFeeId labourServiceFeeId_2  from labourservicegeld g  GROUP BY g.labourServiceFeeId
+			) gtemp  ON l.labourServiceFeeId=gtemp.labourServiceFeeId_2
+		where 0=0
+		<if test="projectId != null and projectId != ''">
+			and l.projectId = #{projectId}
+		</if>
+		order by l.createDate desc,l.signingDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select count(*)
+        from labourServiceFee i
+        <where>
+            and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+        </where>
+    </select>
+
+	<select id="getEditInfo" resultMap="LabourServiceFeeMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from labourServiceFee where labourServiceFeeId = #{labourServiceFeeId}
+	</select>
+	
+    <select id="query" resultMap="LabourServiceFeeMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from labourServiceFee where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="LabourServiceFeeMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from labourServiceFee where labourServiceFeeId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from labourServiceFee where
+		labourServiceFeeId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="LabourServiceFee">
+		insert into labourServiceFee
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId,
+			</if>
+			<if test="projectId != null" >
+				projectId,
+			</if>
+			<if test="serviceBusinessName != null" >
+				serviceBusinessName,
+			</if>
+			<if test="telephone != null" >
+				telephone,
+			</if>
+			<if test="companyOpeningBank != null" >
+				companyOpeningBank,
+			</if>
+			<if test="accountOpeningAaccount != null" >
+				accountOpeningAaccount,
+			</if>
+			<if test="signingDate != null" >
+				signingDate,
+			</if>
+			<if test="laburServiceMaterial != null" >
+				laburServiceMaterial,
+			</if>
+			<if test="taxIdentificationNumber != null" >
+				taxIdentificationNumber,
+			</if>
+			<if test="quantity != null" >
+				quantity,
+			</if>
+			<if test="unitPrice != null" >
+				unitPrice,
+			</if>
+			<if test="contractAmount != null" >
+				contractAmount,
+			</if>
+			<if test="settlementAmount != null" >
+				settlementAmount,
+			</if>
+			<if test="remark != null" >
+				remark,
+			</if>
+			<if test="createDate != null" >
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="labourServiceFeeId != null" >
+				#{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceBusinessName != null" >
+				#{serviceBusinessName,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null" >
+				#{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="companyOpeningBank != null" >
+				#{companyOpeningBank,jdbcType=VARCHAR},
+			</if>
+			<if test="accountOpeningAaccount != null" >
+				#{accountOpeningAaccount,jdbcType=VARCHAR},
+			</if>
+			<if test="signingDate != null" >
+				#{signingDate,jdbcType=VARCHAR},
+			</if>
+			<if test="laburServiceMaterial != null" >
+				#{laburServiceMaterial,jdbcType=VARCHAR},
+			</if>
+			<if test="taxIdentificationNumber != null" >
+				#{taxIdentificationNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null" >
+				#{quantity,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null" >
+				#{unitPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="contractAmount != null" >
+				#{contractAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="settlementAmount != null" >
+				#{settlementAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="LabourServiceFee">
+		update labourServiceFee
+		<set>
+			<if test="labourServiceFeeId != null" >
+				labourServiceFeeId = #{labourServiceFeeId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null" >
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="serviceBusinessName != null" >
+				serviceBusinessName = #{serviceBusinessName,jdbcType=VARCHAR},
+			</if>
+			<if test="telephone != null" >
+				telephone = #{telephone,jdbcType=VARCHAR},
+			</if>
+			<if test="companyOpeningBank != null" >
+				companyOpeningBank = #{companyOpeningBank,jdbcType=VARCHAR},
+			</if>
+			<if test="accountOpeningAaccount != null" >
+				accountOpeningAaccount = #{accountOpeningAaccount,jdbcType=VARCHAR},
+			</if>
+			<if test="signingDate != null" >
+				signingDate = #{signingDate,jdbcType=VARCHAR},
+			</if>
+			<if test="laburServiceMaterial != null" >
+				laburServiceMaterial = #{laburServiceMaterial,jdbcType=VARCHAR},
+			</if>
+			<if test="taxIdentificationNumber != null" >
+				taxIdentificationNumber = #{taxIdentificationNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="quantity != null" >
+				quantity = #{quantity,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null" >
+				unitPrice = #{unitPrice,jdbcType=VARCHAR},
+			</if>
+			<if test="contractAmount != null" >
+				contractAmount = #{contractAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="settlementAmount != null" >
+				settlementAmount = #{settlementAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null" >
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null" >
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null" >
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where labourServiceFeeId = #{labourServiceFeeId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

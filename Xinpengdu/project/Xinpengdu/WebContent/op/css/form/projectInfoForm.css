@@ -1,0 +1,81 @@
+@charset "utf-8";
+
+.boxinfo {
+	border: 1px solid #dedede;
+	padding: 5px 10px 0px 10px;
+}
+
+.input_height {
+	height: 25px;
+	padding: 4px;
+}
+
+.title-line {
+	width: 100%;
+	height: 2px;
+	background: #dedede;
+	border-bottom: 1px solid #FFF;
+}
+
+.projectbody tr {
+	line-height: 32px;
+}
+
+.projectbody .tdtitle {
+	overflow: hidden;
+	text-align: right;
+	padding-right: 5px;
+	white-space: nowrap;
+}
+
+.projectbody .tdright {
+	overflow: hidden;
+	white-space: nowrap;
+	padding-left: 0px;
+}
+
+.rate_size {
+	height: 25px;
+	width: 85%;
+	padding: 4px;
+	display: inline-block;
+}
+
+.table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
+}
+
+.table th {
+	font-weight: bold;
+}
+
+.table th, .table td {
+	padding: 8px;
+	line-height: 20px;
+	text-align: left;
+	vertical-align: top;
+	border-top: 1px solid #ddd;
+	font-size: 12px;
+	/* 用于文字超出单元格宽度时，不换行*/
+	white-space: nowrap;
+	*white-space: nowrap;
+}
+
+.statTd {
+	background-color: #e9e9e9;
+	width: 10%;
+}
+
+.nav-pills li a{width: 100px;text-align: center;}
+
+.btn_content button{padding: 2px 6px;}
+
+.projectRate_table{width: 100%;}
+.projectRate_table tr{line-height: 25px;}
+.projectRate_table .rate_left{width: 6%;text-align: right;padding-right: 3px;}
+.projectRate_table .rate_right{width: 8%;}
+
+.ipt_content_left{text-align: left !important;}
+.ipt_content_right{text-align: right !important;}

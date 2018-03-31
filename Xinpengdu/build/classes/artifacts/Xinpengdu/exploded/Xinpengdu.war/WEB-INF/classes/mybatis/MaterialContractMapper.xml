@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.MaterialContractMapper">
+
+    <resultMap id="MaterialContractMap" type="MaterialContract">
+        <result column="materialContractId" property="materialContractId" jdbcType="VARCHAR"/>
+        <result column="projectId" property="projectId" jdbcType="VARCHAR"/>
+        <result column="telephone" property="telephone" jdbcType="VARCHAR"/>
+        <result column="address" property="address" jdbcType="VARCHAR"/>
+        <result column="openingBank" property="openingBank" jdbcType="VARCHAR"/>
+        <result column="accountNumber" property="accountNumber" jdbcType="VARCHAR"/>
+        <result column="signingDate" property="signingDate" jdbcType="VARCHAR"/>
+        <result column="materialName" property="materialName" jdbcType="VARCHAR"/>
+        <result column="supplierName" property="supplierName" jdbcType="VARCHAR"/>
+        <result column="taxIdentificationNumber" property="taxIdentificationNumber" jdbcType="VARCHAR"/>
+        <result column="quantity" property="quantity" jdbcType="VARCHAR"/>
+        <result column="unitPrice" property="unitPrice" jdbcType="VARCHAR"/>
+        <result column="contractAmount" property="contractAmount" jdbcType="VARCHAR"/>
+        <result column="settlementAmount" property="settlementAmount" jdbcType="VARCHAR"/>
+        <result column="remark" property="remark" jdbcType="VARCHAR"/>
+        <result column="createDate" property="createDate" jdbcType="VARCHAR"/>
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="baseColumn">
+		materialContractId,projectId,telephone,address,openingBank,accountNumber,signingDate,materialName,supplierName,taxIdentificationNumber,quantity,unitPrice,contractAmount,settlementAmount,remark,createDate,lastUpdateDate
+	</sql>
+
+    <select id="queryList1" resultType="map" parameterType="map" >
+        select
+        <include refid="baseColumn" />
+        from materialContract i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+        </where>
+        order by i.lastUpdateDate desc
+    </select>
+
+    <select id="queryList" resultType="map" parameterType="map" >
+        select c.*,itemp.*,gtemp.*,(REPLACE(c.contractAmount,',','')-gtemp.payAmountTotal) noPayAmountTotal from materialContract c LEFT JOIN
+            (
+             select SUM(REPLACE(amount,',','')) amountTotal,SUM(REPLACE(taxAmount,',','')) taxAmountTotal,SUM(REPLACE(taxPrice,',','')) taxPriceTotal,materialContractId materialContractId_1  from materialinvoice i  GROUP BY i.materialContractId
+            ) itemp on c.materialContractId=itemp.materialContractId_1
+        LEFT JOIN
+            (
+             select SUM(REPLACE(payAmount,',','')) payAmountTotal,g.materialContractId materialContractId_2  from materialgeld g  GROUP BY g.materialContractId
+            ) gtemp  ON c.materialContractId=gtemp.materialContractId_2
+        where 0=0
+        <if test="projectId != null and projectId != ''">
+           and c.projectId = #{projectId}
+        </if>
+        order by c.createDate desc,c.signingDate desc
+    </select>
+
+    <select id="count" resultType="int" parameterType="map">
+        select  count(*)
+        from materialContract i
+        <where>
+            and 0=0
+            <if test="projectId != null and projectId != ''">
+                and projectId = #{projectId}
+            </if>
+        </where>
+    </select>
+
+    <select id="getEditInfo" resultMap="MaterialContractMap" parameterType="map">
+        select
+        <include refid="baseColumn"/>
+        from materialContract where materialContractId = #{materialContractId}
+    </select>
+
+    <select id="query" resultMap="MaterialContractMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn"/>
+        from materialContract where projectId = #{value}
+    </select>
+
+    <select id="get" resultMap="MaterialContractMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn"/>
+        from materialContract where materialContractId = #{value}
+    </select>
+
+    <delete id="deleteById" parameterType="java.lang.String">
+		delete from materialContract where
+		materialContractId = #{value}
+	</delete>
+
+    <insert id="save" parameterType="MaterialContract">
+        insert into materialContract
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="materialContractId != null">
+                materialContractId,
+            </if>
+            <if test="projectId != null">
+                projectId,
+            </if>
+            <if test="telephone != null">
+                telephone,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="openingBank != null">
+                openingBank,
+            </if>
+            <if test="accountNumber != null">
+                accountNumber,
+            </if>
+            <if test="signingDate != null">
+                signingDate,
+            </if>
+            <if test="materialName != null">
+                materialName,
+            </if>
+            <if test="supplierName != null">
+                supplierName,
+            </if>
+            <if test="taxIdentificationNumber != null">
+                taxIdentificationNumber,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="unitPrice != null">
+                unitPrice,
+            </if>
+            <if test="contractAmount != null">
+                contractAmount,
+            </if>
+            <if test="settlementAmount != null">
+                settlementAmount,
+            </if>
+            <if test="remark != null">
+                remark,
+            </if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="materialContractId != null">
+                #{materialContractId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="openingBank != null">
+                #{openingBank,jdbcType=VARCHAR},
+            </if>
+            <if test="accountNumber != null">
+                #{accountNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="signingDate != null">
+                #{signingDate,jdbcType=VARCHAR},
+            </if>
+            <if test="materialName != null">
+                #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierName != null">
+                #{supplierName,jdbcType=VARCHAR},
+            </if>
+            <if test="taxIdentificationNumber != null">
+                #{taxIdentificationNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="quantity != null">
+                #{quantity,jdbcType=VARCHAR},
+            </if>
+            <if test="unitPrice != null">
+                #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="contractAmount != null">
+                #{contractAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="settlementAmount != null">
+                #{settlementAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="MaterialContract">
+        update materialContract
+        <set>
+            <if test="materialContractId != null">
+                materialContractId = #{materialContractId,jdbcType=VARCHAR},
+            </if>
+            <if test="projectId != null">
+                projectId = #{projectId,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                telephone = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                address = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="openingBank != null">
+                openingBank = #{openingBank,jdbcType=VARCHAR},
+            </if>
+            <if test="accountNumber != null">
+                accountNumber = #{accountNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="signingDate != null">
+                signingDate = #{signingDate,jdbcType=VARCHAR},
+            </if>
+            <if test="materialName != null">
+                materialName = #{materialName,jdbcType=VARCHAR},
+            </if>
+            <if test="supplierName != null">
+                supplierName = #{supplierName,jdbcType=VARCHAR},
+            </if>
+            <if test="taxIdentificationNumber != null">
+                taxIdentificationNumber = #{taxIdentificationNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="quantity != null">
+                quantity = #{quantity,jdbcType=VARCHAR},
+            </if>
+            <if test="unitPrice != null">
+                unitPrice = #{unitPrice,jdbcType=VARCHAR},
+            </if>
+            <if test="contractAmount != null">
+                contractAmount = #{contractAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="settlementAmount != null">
+                settlementAmount = #{settlementAmount,jdbcType=VARCHAR},
+            </if>
+            <if test="remark != null">
+                remark = #{remark,jdbcType=VARCHAR},
+            </if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where materialContractId = #{materialContractId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

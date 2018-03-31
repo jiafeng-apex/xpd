@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.BankInputMapper">
+
+	<resultMap id="BankInputMap" type="BankInput">
+		<result column="bankId" property="bankId" jdbcType="VARCHAR" />
+        <result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="depositBank" property="depositBank" jdbcType="VARCHAR" />
+		<result column="bankAccount" property="bankAccount" jdbcType="VARCHAR" />
+		<result column="cachet" property="cachet" jdbcType="VARCHAR" />
+		<result column="financialSeal" property="financialSeal" jdbcType="VARCHAR" />
+		<result column="personalSeal" property="personalSeal" jdbcType="VARCHAR" />
+		<result column="depositBankAddr" property="depositBankAddr" jdbcType="VARCHAR" />
+		<result column="otherSeal" property="otherSeal" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+		<result column="createDate" property="createDate" jdbcType="VARCHAR" />
+		<result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		bankId,projectId,bankName,depositBank,bankAccount,cachet,financialSeal,personalSeal,depositBankAddr,otherSeal,remark,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map"  >
+		select
+		<include refid="baseColumn" />
+		from bankInput b
+		<where>
+			and 0=0
+			<if test="searchContent != null and searchContent != ''">
+				and (
+					b.bankName like '%${searchContent}%'
+					or b.depositBank like '%${searchContent}%'
+					or b.depositBankAddr like '%${searchContent}%'
+				)   
+			</if>
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+		order by b.createDate desc
+		limit ${offset},${limit}
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select count(*)
+		from bankInput b
+		<where>
+			and 0=0
+			<if test="searchContent != null and searchContent != ''">
+				and (
+				b.bankName like '%${searchContent}%'
+				or b.depositBank like '%${searchContent}%'
+				or b.depositBankAddr like '%${searchContent}%'
+				)
+			</if>
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="BankInputMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from bankInput where bankId = #{bankId}
+	</select>
+
+    <select id="query" resultMap="BankInputMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from bankInput where projectId = #{value}
+    </select>
+
+	<select id="get" resultMap="BankInputMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from bankInput where bankId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from bankInput
+		where
+		bankId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="BankInput">
+		insert into bankInput
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="bankId != null">
+				bankId,
+			</if>
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="bankName != null">
+				bankName,
+			</if>
+			<if test="depositBank != null">
+				depositBank,
+			</if>
+			<if test="bankAccount != null">
+				bankAccount,
+			</if>
+			<if test="cachet != null">
+				cachet,
+			</if>
+			<if test="financialSeal != null">
+				financialSeal,
+			</if>
+			<if test="personalSeal != null">
+				personalSeal,
+			</if>
+			<if test="depositBankAddr != null">
+				depositBankAddr,
+			</if>
+			<if test="otherSeal != null">
+				otherSeal,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null">
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="bankId != null">
+				#{bankId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="bankName != null">
+				#{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="depositBank != null">
+				#{depositBank,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccount != null">
+				#{bankAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="cachet != null">
+				#{cachet,jdbcType=VARCHAR},
+			</if>
+			<if test="financialSeal != null">
+				#{financialSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="personalSeal != null">
+				#{personalSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="depositBankAddr != null">
+				#{depositBankAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="otherSeal != null">
+				#{otherSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null">
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="BankInput">
+		update bankInput
+		<set>
+			<if test="bankName != null">
+				bankName = #{bankName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="depositBank != null">
+				depositBank = #{depositBank,jdbcType=VARCHAR},
+			</if>
+			<if test="bankAccount != null">
+				bankAccount = #{bankAccount,jdbcType=VARCHAR},
+			</if>
+			<if test="cachet != null">
+				cachet = #{cachet,jdbcType=VARCHAR},
+			</if>
+			<if test="financialSeal != null">
+				financialSeal = #{financialSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="personalSeal != null">
+				personalSeal = #{personalSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="depositBankAddr != null">
+				depositBankAddr = #{depositBankAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="otherSeal != null">
+				otherSeal = #{otherSeal,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null">
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where bankId = #{bankId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

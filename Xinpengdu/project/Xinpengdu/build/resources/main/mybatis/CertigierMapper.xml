@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.CertigierMapper">
+
+	<resultMap id="CertigierMap" type="Certigier">
+        <result column="certigierId" property="certigierId" jdbcType="VARCHAR" />
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+		<result column="certigierName" property="certigierName" jdbcType="VARCHAR" />
+		<result column="certigierTel" property="certigierTel" jdbcType="VARCHAR" />
+		<result column="accreditStart" property="accreditStart" jdbcType="VARCHAR" />
+		<result column="accreditEnd" property="accreditEnd" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+        certigierId,projectId,certigierName,certigierTel,accreditStart,accreditEnd,remark,createDate,lastUpdateDate
+    </sql>
+    
+	<select id="queryList" resultType="map" parameterType="map">
+        select 
+        <include refid="baseColumn" />
+        from certigier c
+        <where>
+            and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+        </where>
+        order by c.lastUpdateDate desc
+		limit ${offset},${limit}
+    </select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select count(*)
+		from certigier c
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="CertigierMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from certigier where certigierId = #{certigierId}
+	</select>
+	
+    <select id="query" resultMap="CertigierMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from certigier c where projectId = #{value}
+		order by c.lastUpdateDate desc
+    </select>
+
+	<select id="get" resultMap="CertigierMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from certigier where certigierId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from certigier where
+		certigierId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="Certigier">
+		insert into certigier
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="certigierId != null">
+				certigierId,
+			</if>
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="certigierName != null">
+				certigierName,
+			</if>
+			<if test="certigierTel != null">
+				certigierTel,
+			</if>
+			<if test="accreditStart != null">
+				accreditStart,
+			</if>
+			<if test="accreditEnd != null">
+				accreditEnd,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="certigierId != null">
+				#{certigierId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="certigierName != null">
+				#{certigierName,jdbcType=VARCHAR},
+			</if>
+			<if test="certigierTel != null">
+				#{certigierTel,jdbcType=VARCHAR},
+			</if>
+			<if test="accreditStart != null">
+				#{accreditStart,jdbcType=VARCHAR},
+			</if>
+			<if test="accreditEnd != null">
+				#{accreditEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="Certigier">
+		update certigier
+		<set>
+			<if test="projectId != null">
+				projectId = #{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="certigierName != null">
+				certigierName = #{certigierName,jdbcType=VARCHAR},
+			</if>
+			<if test="certigierTel != null">
+				certigierTel = #{certigierTel,jdbcType=VARCHAR},
+			</if>
+			<if test="accreditStart != null">
+				accreditStart = #{accreditStart,jdbcType=VARCHAR},
+			</if>
+			<if test="accreditEnd != null">
+				accreditEnd = #{accreditEnd,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where certigierId = #{certigierId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

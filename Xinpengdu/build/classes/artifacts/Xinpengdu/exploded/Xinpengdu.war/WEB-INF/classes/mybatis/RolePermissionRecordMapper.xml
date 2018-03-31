@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.RolePermissionRecordMapper">
+
+	<resultMap id="RolePermissionRecordMap" type="RolePermissionRecord">
+		<result column="recordId" property="recordId" jdbcType="INTEGER" />
+		<result column="roleId" property="roleId" jdbcType="INTEGER" />
+		<result column="permission" property="permission" jdbcType="VARCHAR" />
+		<result column="menuId" property="menuId" jdbcType="INTEGER" />
+		<result column="permissionCode" property="permissionCode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		recordId,roleId,permission,menuId,permissionCode
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from t_role_permission_record i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+		</where>
+		order by i.menuId asc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from t_role_permission_record i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+		</where>
+	</select>
+
+	<select id="getPermissionListByRoleId" resultType="map" parameterType="java.lang.Long">
+		select p.*,(select m.menuCode from t_menu m where m.menuId=p.menuId) menuCode from t_role_permission_record p where p.roleId=#{recordId}
+	</select>
+
+	<select id="getDistinctPermissionListByRoleId" resultType="map" parameterType="java.lang.Integer">
+		select DISTINCT p.menuId,m.menuName,m.level,m.url,m.iconClass,m.parentMenuId,m.menuOrder
+		from t_role_permission_record p left join t_menu m on m.menuId=p.menuId
+		where p.roleId=#{recordId}
+		order by m.parentMenuId asc,m.menuOrder asc
+	</select>
+
+	<select id="getEditInfo" resultMap="RolePermissionRecordMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from t_role_permission_record where recordId = #{recordId}
+	</select>
+	
+    <select id="query" resultMap="RolePermissionRecordMap" parameterType="java.lang.Integer">
+        select
+        <include refid="baseColumn" />
+        from t_role_permission_record where recordId = #{value}
+    </select>
+
+	<select id="get" resultMap="RolePermissionRecordMap" parameterType="java.lang.Integer">
+		select
+		<include refid="baseColumn" />
+		from t_role_permission_record where recordId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from t_role_permission_record where
+		recordId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="RolePermissionRecord">
+		insert into t_role_permission_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="recordId != null" >
+				recordId,
+			</if>
+			<if test="roleId != null" >
+				roleId,
+			</if>
+			<if test="permission != null" >
+				permission,
+			</if>
+			<if test="menuId != null" >
+				menuId,
+			</if>
+			<if test="permissionCode != null" >
+				permissionCode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="recordId != null" >
+				#{recordId,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null" >
+				#{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="permission != null" >
+				#{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="menuId != null" >
+				#{menuId,jdbcType=INTEGER},
+			</if>
+			<if test="permissionCode != null" >
+				#{permissionCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="RolePermissionRecord">
+		update t_role_permission_record
+		<set>
+			<if test="recordId != null" >
+				recordId = #{recordId,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null" >
+				roleId = #{roleId,jdbcType=INTEGER},
+			</if>
+			<if test="permission != null" >
+				permission = #{permission,jdbcType=VARCHAR},
+			</if>
+			<if test="menuId != null" >
+				menuId = #{menuId,jdbcType=INTEGER},
+			</if>
+			<if test="permissionCode != null" >
+				permissionCode = #{permissionCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where recordId = #{recordId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

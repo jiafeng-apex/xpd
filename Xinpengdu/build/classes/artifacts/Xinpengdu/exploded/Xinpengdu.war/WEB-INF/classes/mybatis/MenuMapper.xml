@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.MenuMapper">
+
+	<resultMap id="MenuMap" type="Menu">
+		<result column="menuId" property="menuId" jdbcType="INTEGER" />
+		<result column="menuName" property="menuName" jdbcType="VARCHAR" />
+		<result column="menuCode" property="menuCode" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="iconClass" property="iconClass" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parentMenuId" property="parentMenuId" jdbcType="INTEGER" />
+		<result column="configurable" property="configurable" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="VARCHAR" />
+		<result column="menuOrder" property="menuOrder" jdbcType="INTEGER" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		menuId,menuName,menuCode,url,iconClass,level,parentMenuId,configurable,createTime,menuOrder
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from t_menu i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+			<if test="level != null and level != ''">
+				and level = #{level}
+			</if>
+			<if test="parentMenuId != null and parentMenuId != ''">
+				and parentMenuId = #{parentMenuId}
+			</if>
+		</where>
+		order by i.menuId asc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from t_menu i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+			<if test="level != null and level != ''">
+				and level = #{level}
+			</if>
+			<if test="parentMenuId != null and parentMenuId != ''">
+				and parentMenuId = #{parentMenuId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="MenuMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from t_menu where menuId = #{menuId}
+	</select>
+	
+    <select id="query" resultMap="MenuMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from t_menu where menuId = #{value}
+    </select>
+
+	<select id="get" resultMap="MenuMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from t_menu where menuId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from t_menu where
+		menuId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="Menu">
+		insert into t_menu
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="menuId != null" >
+				menuId,
+			</if>
+			<if test="menuName != null" >
+				menuName,
+			</if>
+			<if test="menuCode != null" >
+				menuCode,
+			</if>
+			<if test="url != null" >
+				url,
+			</if>
+			<if test="iconClass != null" >
+				iconClass,
+			</if>
+			<if test="level != null" >
+				level,
+			</if>
+			<if test="parentMenuId != null" >
+				parentMenuId,
+			</if>
+			<if test="configurable != null" >
+				configurable,
+			</if>
+			<if test="createTime != null" >
+				createTime,
+			</if>
+			<if test="menuOrder != null" >
+				menuOrder,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="menuId != null" >
+				#{menuId,jdbcType=INTEGER},
+			</if>
+			<if test="menuName != null" >
+				#{menuName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuCode != null" >
+				#{menuCode,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null" >
+				#{url,jdbcType=VARCHAR},
+			</if>
+			<if test="iconClass != null" >
+				#{iconClass,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null" >
+				#{level,jdbcType=INTEGER},
+			</if>
+			<if test="parentMenuId != null" >
+				#{parentMenuId,jdbcType=INTEGER},
+			</if>
+			<if test="configurable != null" >
+				#{configurable,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null" >
+				#{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="menuOrder != null" >
+				#{menuOrder,jdbcType=INTEGER},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="Menu">
+		update t_menu
+		<set>
+			<if test="menuId != null" >
+				menuId = #{menuId,jdbcType=INTEGER},
+			</if>
+			<if test="menuName != null" >
+				menuName = #{menuName,jdbcType=VARCHAR},
+			</if>
+			<if test="menuCode != null" >
+				menuCode = #{menuCode,jdbcType=VARCHAR},
+			</if>
+			<if test="url != null" >
+				url = #{url,jdbcType=VARCHAR},
+			</if>
+			<if test="iconClass != null" >
+				iconClass = #{iconClass,jdbcType=VARCHAR},
+			</if>
+			<if test="level != null" >
+				level = #{level,jdbcType=INTEGER},
+			</if>
+			<if test="parentMenuId != null" >
+				parentMenuId = #{parentMenuId,jdbcType=INTEGER},
+			</if>
+			<if test="configurable != null" >
+				configurable = #{configurable,jdbcType=INTEGER},
+			</if>
+			<if test="createTime != null" >
+				createTime = #{createTime,jdbcType=VARCHAR},
+			</if>
+			<if test="menuOrder != null" >
+				menuOrder = #{menuOrder,jdbcType=INTEGER},
+			</if>
+		</set>
+		where menuId = #{menuId,jdbcType=INTEGER}
+	</update>
+
+</mapper>

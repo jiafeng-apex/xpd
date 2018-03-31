@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.EvectionPostponeMapper">
+
+	<resultMap id="EvectionPostponeMap" type="EvectionPostpone">
+    <result column="postponeId" property="postponeId" jdbcType="VARCHAR" />
+		<result column="evectionId" property="evectionId" jdbcType="VARCHAR" />
+		<result column="postponeNumber" property="postponeNumber" jdbcType="VARCHAR" />
+		<result column="postponeStartDate" property="postponeStartDate" jdbcType="VARCHAR" />
+		<result column="postponeEndDate" property="postponeEndDate" jdbcType="VARCHAR" />
+		<result column="postponeAmount" property="postponeAmount" jdbcType="VARCHAR" />
+		<result column="remark" property="remark" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+        postponeId,evectionId,postponeNumber,postponeStartDate,postponeEndDate,postponeAmount,remark,createDate,lastUpdateDate
+    </sql>
+    
+	<select id="queryList" resultType="map" parameterType="map" >
+        select 
+        <include refid="baseColumn" />
+        from evectionPostpone c
+        <where>
+            and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+			<if test="evectionId != null and evectionId != ''">
+				and evectionId = #{evectionId}
+			</if>
+        </where>
+        order by c.lastUpdateDate asc
+    </select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select count(*)
+		from evectionPostpone c
+		<where>
+			and 0=0
+			<if test="projectId != null and projectId != ''">
+				and projectId = #{projectId}
+			</if>
+			<if test="evectionId != null and evectionId != ''">
+				and evectionId = #{evectionId}
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="EvectionPostponeMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from evectionPostpone where postponeId = #{postponeId}
+	</select>
+	
+    <select id="query" resultMap="EvectionPostponeMap" parameterType="java.lang.String">
+        select
+        <include refid="baseColumn" />
+        from evectionPostpone where evectionId = #{value}
+    </select>
+
+	<select id="get" resultMap="EvectionPostponeMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from evectionPostpone where postponeId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from evectionPostpone where
+		postponeId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="EvectionPostpone">
+		insert into evectionPostpone
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="postponeId != null">
+				postponeId,
+			</if>
+			<if test="evectionId != null">
+				evectionId,
+			</if>
+			<if test="postponeNumber != null">
+				postponeNumber,
+			</if>
+			<if test="postponeStartDate != null">
+				postponeStartDate,
+			</if>
+			<if test="postponeEndDate != null">
+				postponeEndDate,
+			</if>
+			<if test="postponeAmount != null">
+				postponeAmount,
+			</if>
+			<if test="remark != null">
+				remark,
+			</if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="postponeId != null">
+				#{postponeId,jdbcType=VARCHAR},
+			</if>
+			<if test="evectionId != null">
+				#{evectionId,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeNumber != null">
+				#{postponeNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeStartDate != null">
+				#{postponeStartDate,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeEndDate != null">
+				#{postponeEndDate,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeAmount != null">
+				#{postponeAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="EvectionPostpone">
+		update evectionPostpone
+		<set>
+			<if test="evectionId != null">
+				evectionId = #{evectionId,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeNumber != null">
+				postponeNumber = #{postponeNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeStartDate != null">
+				postponeStartDate = #{postponeStartDate,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeEndDate != null">
+				postponeEndDate = #{postponeEndDate,jdbcType=VARCHAR},
+			</if>
+			<if test="postponeAmount != null">
+				postponeAmount = #{postponeAmount,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				remark = #{remark,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where postponeId = #{postponeId,jdbcType=VARCHAR}
+	</update>
+
+</mapper>

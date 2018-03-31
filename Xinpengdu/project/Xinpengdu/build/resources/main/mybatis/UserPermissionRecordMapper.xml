@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.UserPermissionRecordMapper">
+
+	<resultMap id="UserPermissionRecordMap" type="UserPermissionRecord">
+		<result column="recordId" property="recordId" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="VARCHAR" />
+		<result column="menuId" property="menuId" jdbcType="VARCHAR" />
+		<result column="permissionCode" property="permissionCode" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+		recordId,userId,menuId,permissionCode
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from t_user_permission_record i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+		</where>
+		order by i.menuId asc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from t_user_permission_record i
+		<where>
+			and 0=0
+			<if test="menuName != null and menuName != ''">
+				and menuName = #{menuName}
+			</if>
+		</where>
+	</select>
+
+	<select id="getPermissionListByUserId" resultType="map" parameterType="map">
+		select p.*,(select m.menuCode from t_menu m where m.menuId=p.menuId) menuCode from t_user_permission_record p
+		where p.userId=#{userId}
+		<if test="permissionCode != null and permissionCode != ''">
+			and p.permissionCode = #{permissionCode}
+		</if>
+	</select>
+
+	<select id="getDistinctPermissionListByUserId" resultType="map" parameterType="java.lang.Integer">
+		select DISTINCT m.menuId,m.menuName,m.level,m.url,m.iconClass,m.parentMenuId,m.menuOrder
+		from t_user_permission_record u
+		LEFT JOIN t_menu m on u.menuId=m.menuId
+		where m.level='1' and u.userId=#{userId}
+		GROUP BY u.menuId
+		order by m.parentMenuId asc,m.menuOrder asc
+	</select>
+
+	<select id="getEditInfo" resultMap="UserPermissionRecordMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from t_user_permission_record where recordId = #{recordId}
+	</select>
+	
+    <select id="query" resultMap="UserPermissionRecordMap" parameterType="java.lang.Integer">
+        select
+        <include refid="baseColumn" />
+        from t_user_permission_record where recordId = #{value}
+    </select>
+
+	<select id="get" resultMap="UserPermissionRecordMap" parameterType="java.lang.Integer">
+		select
+		<include refid="baseColumn" />
+		from t_user_permission_record where recordId = #{value}
+	</select>
+	
+	<delete id="deleteById" parameterType="java.lang.Integer">
+		delete from t_user_permission_record where
+		recordId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="UserPermissionRecord">
+		insert into t_user_permission_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="recordId != null" >
+				recordId,
+			</if>
+			<if test="userId != null" >
+				userId,
+			</if>
+			<if test="menuId != null" >
+				menuId,
+			</if>
+			<if test="permissionCode != null" >
+				permissionCode,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="recordId != null" >
+				#{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuId != null" >
+				#{menuId,jdbcType=VARCHAR},
+			</if>
+			<if test="permissionCode != null" >
+				#{permissionCode,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<update id="update" parameterType="UserPermissionRecord">
+		update t_user_permission_record
+		<set>
+			<if test="recordId != null" >
+				recordId = #{recordId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != null" >
+				userId = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="menuId != null" >
+				menuId = #{menuId,jdbcType=VARCHAR},
+			</if>
+			<if test="permissionCode != null" >
+				permissionCode = #{permissionCode,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where recordId = #{recordId,jdbcType=INTEGER}
+	</update>
+
+
+	<delete id="deleteByUserId" parameterType="java.lang.Long">
+		delete from t_user_permission_record where
+		userId = #{value}
+	</delete>
+</mapper>

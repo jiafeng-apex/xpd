@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.OperaterMapper">
+
+	<resultMap id="OperaterMap" type="Operater">
+		<result column="operaterId" property="operaterId" jdbcType="VARCHAR" />
+		<result column="loginName" property="loginName" jdbcType="VARCHAR" />
+		<result column="operaterPwd" property="operaterPwd" jdbcType="VARCHAR" />
+		<result column="deptName" property="deptName" jdbcType="VARCHAR" />
+		<result column="postId" property="postId" jdbcType="VARCHAR" />
+		<result column="operaterName" property="operaterName" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+	
+    <sql id="baseColumn">
+        operaterId,loginName,operaterPwd,deptName,postId,operaterName,createDate,lastUpdateDate
+    </sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+		select
+		<include refid="baseColumn" />
+		from operater o
+		<where>
+			and 0=0
+			<if test="loginName != null and loginName != ''">
+				and o.loginName like '%${loginName}%'
+			</if>
+			<if test="operaterName != null and operaterName != ''">
+				and o.operaterName like '%${operaterName}%'
+			</if>
+		</where>
+		order by o.lastUpdateDate desc
+	</select>
+
+	<select id="count" resultType="int" parameterType="map">
+		select  count(*)
+		from operater o
+		<where>
+			and 0=0
+			<if test="loginName != null and loginName != ''">
+				and o.loginName like '%${loginName}%'
+			</if>
+			<if test="operaterName != null and operaterName != ''">
+				and o.operaterName like '%${operaterName}%'
+			</if>
+		</where>
+	</select>
+
+	<select id="getEditInfo" resultMap="OperaterMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from operater where operaterId = #{operaterId}
+	</select>
+
+	<!-- 验证用户登录 -->
+	<select id="checkOperater" resultMap="OperaterMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from operater where loginName = #{loginName}
+		and operaterPwd = #{operaterPwd}
+	</select>
+	<!-- 根据登录帐号获取用户信息 -->
+	<select id="get" resultMap="OperaterMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from operater where operaterId = #{value}
+	</select>
+	<!-- 根据登录帐号删除用户 -->
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from operater where
+		operaterId = #{value}
+	</delete>
+	<!-- 添加用户 -->
+	<insert id="save" parameterType="Operater">
+		insert into operater
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<!--<if test="operaterId != null">-->
+				<!--operaterId,-->
+			<!--</if>-->
+			<if test="loginName != null">
+				loginName,
+			</if>
+			<if test="operaterPwd != null">
+				operaterPwd,
+			</if>
+			<if test="deptName != null">
+				deptName,
+			</if>
+			<if test="postId != null">
+				postId,
+			</if>
+			<if test="operaterName != null">
+				operaterName,
+			</if>
+            <if test="createDate != null">
+                createDate,
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate,
+            </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<!--<if test="operaterId != null">-->
+				<!--#{operaterId,jdbcType=VARCHAR},-->
+			<!--</if>-->
+			<if test="loginName != null">
+				#{loginName,jdbcType=VARCHAR},
+			</if>
+			<if test="operaterPwd != null">
+				#{operaterPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="deptName != null">
+				#{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="postId != null">
+				#{postId,jdbcType=VARCHAR},
+			</if>
+			<if test="operaterName != null">
+				#{operaterName,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</trim>
+	</insert>
+	<!-- 修改用户信息 -->
+	<update id="update" parameterType="Operater">
+		update operater
+		<set>
+			<if test="loginName != null">
+				loginName = #{loginName,jdbcType=VARCHAR},
+			</if>
+			<if test="operaterPwd != null">
+				operaterPwd = #{operaterPwd,jdbcType=VARCHAR},
+			</if>
+			<if test="deptName != null">
+				deptName = #{deptName,jdbcType=VARCHAR},
+			</if>
+			<if test="postId != null">
+				postId = #{postId,jdbcType=VARCHAR},
+			</if>
+			<if test="operaterName != null">
+				operaterName = #{operaterName,jdbcType=VARCHAR},
+			</if>
+            <if test="createDate != null">
+                createDate = #{createDate,jdbcType=VARCHAR},
+            </if>
+            <if test="lastUpdateDate != null">
+                lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+            </if>
+		</set>
+		where operaterId = #{operaterId,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 根据 用户名 查询用户 -->
+	<select id="getOperaterByLoginName" resultMap="OperaterMap"
+			parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from operater where loginName = #{loginName}
+		ORDER by createDate DESC
+		limit 0,1
+	</select>
+</mapper>

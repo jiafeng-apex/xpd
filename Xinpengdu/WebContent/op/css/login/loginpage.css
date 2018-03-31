@@ -1,0 +1,61 @@
+body {
+  background: #9fc6e5 url(../../img/login/bj.gif) repeat-x;
+}
+body,div,ul,li,ol,pre,h1,h2,h3,h4,h5,h6,dl,dt,dd,input,fieldset,form,textarea,p,th,td,botton,blockquote,span,img{margin:0;padding:0;}
+body{font-size:12px;line-height:24px;color:#666; width:100%; position:relative;}
+html,body{height:96%; width:100%;}
+fieldset,img,input,button{border:0;}
+ul,li{list-style-type:none;}
+a{ color:#666;text-decoration:none;}
+a:hover{ color:#0067c7; text-decoration:underline;}
+
+.bghover{background-color:#23D3F8;}
+
+/*land*/
+#land{ width:777px; margin:60px auto 0 auto;}
+#land h1{ float:left; margin-left:292px;}
+.land_con{ float:left; width:777px; height:429px; background:url(../../img/login/land_bj.png) no-repeat;}
+.land_con dl{ float:right; width:260px; margin:73px 69px 0 0;}
+.land_con dl dt{ float:left; width:260px; line-height:60px; color:#c66e00; font-size:18px; font-family:"微软雅黑"; border-bottom:1px solid #c1c1c1; text-align:center;}
+.land_con dl dd{ float:left; width:260px; margin-top:10px;}
+.land_con dl dd p{ float:left; width:260px; font-weight:bold;}
+.land_input{ float:left; width:258px; height:26px; border:1px solid #b8c3cc; color:#666; text-indent:5px;}
+.land_in{ float:left; margin:6px 5px 0 0;}
+.banquan{ float:left; width:777px; text-align:center; color:#262626;}
+.land_butt{ float:left; width:99px; height:30px; background:url(../../img/login/land_anniu1.gif) no-repeat; cursor:pointer; margin-right:29px;}
+.land_butt2{ float:left; width:99px; height:30px; background:url(../../img/login/land_anniu2.gif) no-repeat; cursor:pointer;}
+/*land*/
+
+.input_b {
+  width: 175px;
+  height: 20px;
+}
+
+.input_c {
+  width: 98px;
+  height: 30px;
+  float: left;
+  margin-top: 10px
+}
+
+.input_b_form {
+  height: 26px;
+  text-indent: 5px;
+  width: 68px;
+  border: 1px solid #b8c3cc;
+  color: #666;
+}
+
+.input_d {
+  width: 68px;
+  height: 20px;
+  float: left;
+  margin-top: 8px
+}
+
+.land_con {
+  float: left;
+  width: 777px;
+  height: 429px;
+  background: url(../../img/login/land_bj.png) no-repeat;
+}

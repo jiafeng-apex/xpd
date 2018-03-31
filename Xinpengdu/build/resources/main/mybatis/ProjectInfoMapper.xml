@@ -1,0 +1,396 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.xinpengdu.persistence.ProjectInfoMapper">
+
+	<resultMap id="ProjectInfoMap" type="ProjectInfo">
+		<result column="projectId" property="projectId" jdbcType="VARCHAR" />
+	    <result column="pmId" property="pmId" jdbcType="VARCHAR" />
+	    <result column="pmName" property="pmName" jdbcType="VARCHAR" />
+		<result column="tellPhone" property="tellPhone" jdbcType="VARCHAR" />
+		<result column="partyName" property="partyName" jdbcType="VARCHAR" />
+		<result column="projectName" property="projectName" jdbcType="VARCHAR" />
+		<result column="isFinish" property="isFinish" jdbcType="VARCHAR" />
+		<result column="addValueTaxType" property="addValueTaxType" jdbcType="VARCHAR" />
+		<result column="invoiceSyncDate" property="invoiceSyncDate" jdbcType="VARCHAR" />
+		<result column="isAddBankInfo" property="isAddBankInfo" jdbcType="VARCHAR" />
+		<result column="signedDate" property="signedDate" jdbcType="VARCHAR" />
+		<result column="contractAcount" property="contractAcount" jdbcType="VARCHAR" />
+		<result column="clearingAcount" property="clearingAcount" jdbcType="VARCHAR" />
+		<result column="projectType" property="projectType" jdbcType="VARCHAR" />
+		<result column="projectAddr" property="projectAddr" jdbcType="VARCHAR" />
+		<result column="remarkOne" property="remarkOne" jdbcType="VARCHAR" />
+		<result column="remarkTwo" property="remarkTwo" jdbcType="VARCHAR" />
+        <result column="createDate" property="createDate" jdbcType="VARCHAR" />
+        <result column="lastUpdateDate" property="lastUpdateDate" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<sql id="baseColumn">
+		projectId,pmId,tellPhone,partyName,projectName,isFinish,addValueTaxType,invoiceSyncDate,isAddBankInfo,signedDate,contractAcount,clearingAcount,projectType,projectAddr,
+		remarkOne,remarkTwo,createDate,lastUpdateDate
+	</sql>
+
+	<select id="queryList" resultType="map" parameterType="map" >
+	    SELECT COUNT(projectId),projectId,pmId,pmName,tellPhone,partyName,projectName,isFinish,addValueTaxType,invoiceSyncDate,isAddBankInfo,signedDate,contractAcount,clearingAcount,projectType,projectAddr,remarkOne,remarkTwo,createDate,lastUpdateDate
+        FROM 
+        (
+		    SELECT
+				distinct p.projectId,p.pmId,pm.pmName,p.tellPhone,p.partyName,p.projectName,p.isFinish,p.addValueTaxType,p.invoiceSyncDate,p.isAddBankInfo,p.signedDate,p.contractAcount,
+	            p.clearingAcount,p.projectType,p.projectAddr,p.remarkOne,p.remarkTwo,p.createDate,p.lastUpdateDate
+	        FROM projectInfo p
+			LEFT JOIN projectManager pm ON p.pmId = pm.pmId 	<!-- 项目经理  -->
+			LEFT JOIN projectToll pt ON pt.projectId = p.projectId  <!-- 工程收费  -->
+			LEFT JOIN invoice i ON i.projectId = p.projectId  	<!-- 发票  -->
+			LEFT JOIN receipt r ON r.projectId = p.projectId 	<!-- 收据  -->
+			LEFT JOIN evection e ON e.projectId = p.projectId 	<!-- 外出证  -->
+			LEFT JOIN evectionpostpone ep ON ep.evectionId = e.evectionId  	<!-- 外出证延期  -->
+			LEFT JOIN certigier c ON c.projectId = p.projectId 		<!-- 授权人  -->
+			LEFT JOIN bankinput b ON b.projectId = p.projectId 		<!-- 银行  -->
+			LEFT JOIN materialcontract m on m.projectId=p.projectId 	<!-- 材料合同 -->
+			left join materialgeld mg on mg.projectId=p.projectId		<!-- 材料支付款 -->
+			left join materialInvoice mi on mi.projectId=p.projectId 	<!-- 材料发票 -->
+			left join labourservicefee ls on ls.projectId=p.projectId 	<!-- 劳务费 -->
+			left join labourservicegeld lsg on lsg.projectId=p.projectId	<!-- 劳务支付款 -->
+			left join labourServiceInvoice lsi on lsi.projectId=p.projectId	<!-- 劳务发票 -->
+		    <where>
+				and 0=0 
+				<!-- 如果搜索内容的集合大于0不为空 -->
+	            <if test="contentSize != null and contentSize != '' and contentSize > 0">
+					and
+					(
+					<foreach collection="contentList" open="(" close=")" item="content" separator="or">
+						CONCAT(IFNULL(pm.pmName,''),IFNULL(p.partyName,''),IFNULL(p.tellPhone,''),IFNULL(p.projectName,''),IFNULL(p.projectAddr,''),IFNULL(p.remarkOne,''),
+						IFNULL(p.remarkTwo,''),IFNULL(i.invoiceNumber,''),IFNULL(i.remark,''),IFNULL(r.receiptNO,''),IFNULL(r.remark,''),IFNULL(ep.postponeNumber,''),IFNULL(ep.remark,''),
+						IFNULL(c.certigierName,''),IFNULL(c.remark,''),IFNULL(b.bankName,''),IFNULL(b.bankAccount,''),IFNULL(b.depositBank,''),IFNULL(b.cachet,''),IFNULL(b.financialSeal,''),
+						IFNULL(b.personalSeal,''),IFNULL(b.otherSeal,''),IFNULL(b.depositBankAddr,''),IFNULL(b.remark,''),IFNULL(m.supplierName,''),IFNULL(m.address,''),
+						IFNULL(m.openingBank,''),IFNULL(m.materialName,''),IFNULL(m.remark,''),IFNULL(mg.summary,''),IFNULL(mg.remark,''),IFNULL(mi.invoiceNumber,''),
+						IFNULL(mi.summary,''),IFNULL(mi.remark,''),IFNULL(ls.serviceBusinessName,''),IFNULL(ls.address,''),IFNULL(ls.companyOpeningBank,''),IFNULL(ls.taxIdentificationNumber,''),
+						IFNULL(lsg.summary,''),IFNULL(lsg.remark,''),IFNULL(lsi.invoiceNumber,''),IFNULL(lsi.summary,''),IFNULL(lsi.remark,''))
+						like '%${content}%'
+					</foreach>
+					)
+	            </if>
+	            <!-- 如果输入金额的起始值和结束值都不为空 -->
+	            <if test="projectAmountBegin != null and projectAmountBegin != '' and projectAmountEnd != null and projectAmountEnd != ''">
+	                AND 
+	                (
+	                    (REPLACE(p.contractAcount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(p.contractAcount,',',''))   <!-- 合同金额    -->
+	                    OR (REPLACE(p.clearingAcount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(p.clearingAcount,',',''))    <!-- 结算金额  -->
+	                    OR (REPLACE(pt.importAmount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.importAmount,',',''))    <!-- 汇入金额  -->
+	                    OR (REPLACE(pt.exportAmount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.exportAmount,',',''))    <!-- 汇出金额  -->
+	                    OR (REPLACE(pt.companyFunds,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.companyFunds,',',''))    <!-- 汇回公司款  -->
+	                    OR (REPLACE(pt.localBankDeposit,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.localBankDeposit,',',''))    <!-- 当地银行存款  -->
+	                    OR (REPLACE(pt.balance,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.balance,',',''))    <!-- 余额  -->
+	                )
+	            </if>
+	            <!-- 如果输入日期的起始值和结束值都不为空 -->
+	            <if test="projectBeginTime != null and projectBeginTime != '' and projectEndTime != null and projectEndTime != ''">
+	                AND 
+	                (
+	                    p.signedDate >= #{projectBeginTime} AND  #{projectEndTime} >= p.signedDate   <!-- 签订日期  -->
+	                )
+	            </if>
+	       </where>
+       
+	    ) a 
+	    GROUP BY projectId,pmId,pmName,tellPhone,partyName,projectName,isFinish,addValueTaxType,invoiceSyncDate,signedDate,contractAcount,clearingAcount,projectType,projectAddr,remarkOne,remarkTwo,createDate,lastUpdateDate
+        ORDER BY createDate desc,COUNT(projectId) desc
+        limit ${offset},${limit}
+	</select>
+	
+    <select id="count" resultType="int" parameterType="map">
+        SELECT count(distinct p.projectId) FROM projectInfo p
+		LEFT JOIN projectManager pm ON p.pmId = pm.pmId 	<!-- 项目经理  -->
+		LEFT JOIN projectToll pt ON pt.projectId = p.projectId  <!-- 工程收费  -->
+		LEFT JOIN invoice i ON i.projectId = p.projectId  	<!-- 发票  -->
+		LEFT JOIN receipt r ON r.projectId = p.projectId 	<!-- 收据  -->
+		LEFT JOIN evection e ON e.projectId = p.projectId 	<!-- 外出证  -->
+		LEFT JOIN evectionpostpone ep ON ep.evectionId = e.evectionId  	<!-- 外出证延期  -->
+		LEFT JOIN certigier c ON c.projectId = p.projectId 		<!-- 授权人  -->
+		LEFT JOIN bankinput b ON b.projectId = p.projectId 		<!-- 银行  -->
+		LEFT JOIN materialcontract m on m.projectId=p.projectId 	<!-- 材料合同 -->
+		left join materialgeld mg on mg.projectId=p.projectId		<!-- 材料支付款 -->
+		left join materialInvoice mi on mi.projectId=p.projectId 	<!-- 材料发票 -->
+		left join labourservicefee ls on ls.projectId=p.projectId 	<!-- 劳务费 -->
+		left join labourservicegeld lsg on lsg.projectId=p.projectId	<!-- 劳务支付款 -->
+		left join labourServiceInvoice lsi on lsi.projectId=p.projectId	<!-- 劳务发票 -->
+        <where>
+            and 0=0 
+            <!-- 如果搜索内容不为空 -->
+            <if test="contentSize != null and contentSize != '' and contentSize > 0">
+				and
+				(
+				<foreach collection="contentList" open="(" close=")" item="content" separator="or">
+					CONCAT(IFNULL(pm.pmName,''),IFNULL(p.partyName,''),IFNULL(p.tellPhone,''),IFNULL(p.projectName,''),IFNULL(p.projectAddr,''),IFNULL(p.remarkOne,''),
+					IFNULL(p.remarkTwo,''),IFNULL(i.invoiceNumber,''),IFNULL(i.remark,''),IFNULL(r.receiptNO,''),IFNULL(r.remark,''),IFNULL(ep.postponeNumber,''),IFNULL(ep.remark,''),
+					IFNULL(c.certigierName,''),IFNULL(c.remark,''),IFNULL(b.bankName,''),IFNULL(b.bankAccount,''),IFNULL(b.depositBank,''),IFNULL(b.cachet,''),IFNULL(b.financialSeal,''),
+					IFNULL(b.personalSeal,''),IFNULL(b.otherSeal,''),IFNULL(b.depositBankAddr,''),IFNULL(b.remark,''),IFNULL(m.supplierName,''),IFNULL(m.address,''),
+					IFNULL(m.openingBank,''),IFNULL(m.materialName,''),IFNULL(m.remark,''),IFNULL(mg.summary,''),IFNULL(mg.remark,''),IFNULL(mi.invoiceNumber,''),
+					IFNULL(mi.summary,''),IFNULL(mi.remark,''),IFNULL(ls.serviceBusinessName,''),IFNULL(ls.address,''),IFNULL(ls.companyOpeningBank,''),IFNULL(ls.taxIdentificationNumber,''),
+					IFNULL(lsg.summary,''),IFNULL(lsg.remark,''),IFNULL(lsi.invoiceNumber,''),IFNULL(lsi.summary,''),IFNULL(lsi.remark,''))
+					like '%${content}%'
+				</foreach>
+				)
+	        </if>
+            <!-- 如果输入的金额不为空 -->
+            <if test="projectAmountBegin != null and projectAmountBegin != '' and projectAmountEnd != null and projectAmountEnd != ''">
+                AND 
+                (
+                    (REPLACE(p.contractAcount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(p.contractAcount,',',''))   <!-- 合同金额    -->
+                    OR (REPLACE(p.clearingAcount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(p.clearingAcount,',',''))    <!-- 结算金额  -->
+                    OR (REPLACE(pt.importAmount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.importAmount,',',''))    <!-- 汇入金额  -->
+                    OR (REPLACE(pt.exportAmount,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.exportAmount,',',''))    <!-- 汇出金额  -->
+                    OR (REPLACE(pt.companyFunds,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.companyFunds,',',''))    <!-- 汇回公司款  -->
+                    OR (REPLACE(pt.localBankDeposit,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.localBankDeposit,',',''))    <!-- 当地银行存款  -->
+                    OR (REPLACE(pt.balance,',','') >= ${projectAmountBegin} AND ${projectAmountEnd} >= REPLACE(pt.balance,',',''))    <!-- 余额  -->
+                )
+            </if>
+            <!-- 如果输入的日期不为空 -->
+            <if test="projectBeginTime != null and projectBeginTime != '' and projectEndTime != null and projectEndTime != ''">
+                AND 
+                (
+                    p.signedDate >= #{projectBeginTime} AND  #{projectEndTime} >= p.signedDate   <!-- 签订日期  -->
+                )
+            </if>
+       </where>
+    </select>
+
+	<select id="getProjectInfo" resultType="map" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectInfo where projectId = #{projectId}
+	</select>
+
+	<select id="getEditInfo" resultMap="ProjectInfoMap"
+		parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectInfo where projectId = #{projectId}
+	</select>
+	
+	<select id="getList" resultMap="ProjectInfoMap" parameterType="map">
+	  select
+	  <include refid="baseColumn" />
+	    from projectInfo p where 1=1 
+	  <if test="projectId != null and projectId != ''">
+	     and p.projectId = #{projectId}
+	  </if>
+	  <if test="pmId != null and pmId != ''">
+	     and p.pmId = #{pmId}
+	  </if>
+	</select>
+
+	<select id="get" resultMap="ProjectInfoMap" parameterType="java.lang.String">
+		select
+		<include refid="baseColumn" />
+		from projectInfo where projectId = #{value}
+	</select>
+	
+	<!-- 获取最新一条项目工程的Id -->
+	<select id="getLatestProjectId" resultType="java.lang.String">
+	  select projectId from projectInfo order by createDate desc limit 1
+	</select>
+	
+	<!--  根据项目经理id获取工程数量  getProjectCountByPmId-->
+	<select id="getProjectCountByPmId" resultType="int" parameterType="map">
+       select count(projectId) count  from projectInfo p where p.pmId in
+       <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+              #{item}
+       </foreach>
+    </select> 
+	
+	<delete id="deleteById" parameterType="java.lang.String">
+		delete from projectInfo
+		where
+		projectId = #{value}
+	</delete>
+
+	<insert id="save" parameterType="ProjectInfo">
+		insert into projectInfo
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				projectId,
+			</if>
+			<if test="pmId != null">
+				pmId,
+			</if>
+			<if test="pmName != null">
+				pmName,
+			</if>
+			<if test="tellPhone != null">
+				tellPhone,
+			</if>
+			<if test="partyName != null">
+				partyName,
+			</if>
+			<if test="projectName != null">
+				projectName,
+			</if>
+			<if test="isFinish != null">
+				isFinish,
+			</if>
+			<if test="addValueTaxType != null">
+				addValueTaxType,
+			</if>
+			<if test="invoiceSyncDate != null">
+				invoiceSyncDate,
+			</if>
+			<if test="isAddBankInfo != null">
+				isAddBankInfo,
+			</if>
+			<if test="signedDate != null">
+				signedDate,
+			</if>
+			<if test="contractAcount != null">
+				contractAcount,
+			</if>
+			<if test="clearingAcount != null">
+				clearingAcount,
+			</if>
+			<if test="projectType != null">
+				projectType,
+			</if>
+			<if test="projectAddr != null">
+				projectAddr,
+			</if>
+			<if test="remarkOne != null">
+				remarkOne,
+			</if>
+			<if test="remarkTwo != null">
+				remarkTwo,
+			</if>
+			<if test="createDate != null">
+				createDate,
+			</if>
+			<if test="lastUpdateDate != null">
+				lastUpdateDate,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="pmId != null">
+				#{pmId,jdbcType=VARCHAR},
+			</if>
+			<if test="pmName != null">
+				#{pmName,jdbcType=VARCHAR},
+			</if>
+			<if test="tellPhone != null">
+				#{tellPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="partyName != null">
+				#{partyName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				#{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="isFinish != null">
+				#{isFinish,jdbcType=VARCHAR},
+			</if>
+			<if test="addValueTaxType != null">
+				#{addValueTaxType,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceSyncDate != null">
+				#{invoiceSyncDate,jdbcType=VARCHAR},
+			</if>
+			<if test="isAddBankInfo != null">
+				#{isAddBankInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="signedDate != null">
+				#{signedDate,jdbcType=VARCHAR},
+			</if>
+			<if test="contractAcount != null">
+				#{contractAcount,jdbcType=VARCHAR},
+			</if>
+			<if test="clearingAcount != null">
+				#{clearingAcount,jdbcType=VARCHAR},
+			</if>
+			<if test="projectType != null">
+				#{projectType,jdbcType=VARCHAR},
+			</if>
+			<if test="projectAddr != null">
+				#{projectAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkOne != null">
+				#{remarkOne,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkTwo != null">
+				#{remarkTwo,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				#{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null">
+				#{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+	<update id="update" parameterType="ProjectInfo">
+		update projectInfo
+		<set>
+			<if test="pmId != null">
+				pmId = #{pmId,jdbcType=VARCHAR},
+			</if>
+			<if test="tellPhone != null">
+				tellPhone = #{tellPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="partyName != null">
+				partyName = #{partyName,jdbcType=VARCHAR},
+			</if>
+			<if test="projectName != null">
+				projectName = #{projectName,jdbcType=VARCHAR},
+			</if>
+			<if test="isFinish != null">
+				isFinish = #{isFinish,jdbcType=VARCHAR},
+			</if>
+			<if test="addValueTaxType != null">
+				addValueTaxType = #{addValueTaxType,jdbcType=VARCHAR},
+			</if>
+			<if test="invoiceSyncDate != null">
+				invoiceSyncDate = #{invoiceSyncDate,jdbcType=VARCHAR},
+			</if>
+			<if test="isAddBankInfo != null">
+				isAddBankInfo = #{isAddBankInfo,jdbcType=VARCHAR},
+			</if>
+			<if test="signedDate != null">
+				signedDate = #{signedDate,jdbcType=VARCHAR},
+			</if>
+			<if test="contractAcount != null">
+				contractAcount = #{contractAcount,jdbcType=VARCHAR},
+			</if>
+			<if test="clearingAcount != null">
+				clearingAcount = #{clearingAcount,jdbcType=VARCHAR},
+			</if>
+			<if test="projectType != null">
+				projectType = #{projectType,jdbcType=VARCHAR},
+			</if>
+			<if test="projectAddr != null">
+				projectAddr = #{projectAddr,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkOne != null">
+				remarkOne = #{remarkOne,jdbcType=VARCHAR},
+			</if>
+			<if test="remarkTwo != null">
+				remarkTwo = #{remarkTwo,jdbcType=VARCHAR},
+			</if>
+			<if test="createDate != null">
+				createDate = #{createDate,jdbcType=VARCHAR},
+			</if>
+			<if test="lastUpdateDate != null">
+				lastUpdateDate = #{lastUpdateDate,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where projectId = #{projectId,jdbcType=VARCHAR}
+	</update>
+
+	<select id="getListByInvoiceSyncDate" resultMap="ProjectInfoMap" parameterType="map">
+		select
+		<include refid="baseColumn" />
+		from projectInfo p where 1=1
+		<if test="invoiceSyncDate != null and invoiceSyncDate != ''">
+			and p.invoiceSyncDate = #{invoiceSyncDate}
+		</if>
+	</select>
+</mapper>
